@@ -15,6 +15,11 @@ import { Header } from './components/header';
 import { Home } from './components/home';
 import { Footer } from './components/footer';
 import {ROUTES} from "./utils/values";
+import {History} from "./components/history";
+import {Services} from "./components/services";
+import {Contact} from "./components/contact";
+import {Shop} from "./components/shop";
+import {Product} from "./components/product";
 
 function App() {
   return (
@@ -32,7 +37,7 @@ function App() {
             path={ ROUTES.HISTORY }
             exact
           >
-            <h1>History</h1>
+            <History/>
           </Route>
           <Route
             path={ ROUTES.NEWS }
@@ -44,19 +49,25 @@ function App() {
             path={ ROUTES.CONTACT }
             exact
           >
-            <h1>CONTACT</h1>
+            <Contact/>
           </Route>
           <Route
             path={ ROUTES.SERVICES }
             exact
           >
-            <h1>SERVICES</h1>
+            <Services/>
           </Route>
           <Route
             path={ ROUTES.SHOP }
             exact
           >
-            <h1>SHOP</h1>
+            <Shop/>
+          </Route>
+          <Route
+            path={ ROUTES.PRODUCT }
+            exact
+          >
+            <Product/>
           </Route>
         </Switch>
         <Footer/>

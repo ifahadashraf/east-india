@@ -9,8 +9,6 @@ import privateLabel from '../../img/private-label.png';
 import storageDistribution from '../../img/storage-distribution.png';
 import postImage from '../../img/post-img.jpg';
 
-import packaging from '../../img/products/packaging.png';
-
 export const Home = () => (
   <>
     <div className='home_banner'>

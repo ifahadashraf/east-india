@@ -212,7 +212,6 @@ module.exports = {
       'when': 'always',
     } ],
     'react/jsx-no-undef': 2,
-    'react/jsx-sort-prop-types': 0,
     'react/jsx-sort-props': 0,
     'react/jsx-uses-react': 1,
     'react/jsx-uses-vars': 1,
@@ -221,7 +220,6 @@ module.exports = {
     'react/no-did-update-set-state': 2,
     'react/no-multi-comp': 2,
     'react/no-unknown-property': 2,
-    'react/prop-types': 2,
     'react/react-in-jsx-scope': 2,
     'react/self-closing-comp': ['error', {
       'component': true,
