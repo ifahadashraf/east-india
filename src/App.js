@@ -11,15 +11,15 @@ import {
   Route,
 } from 'react-router-dom';
 
-import { Header } from './components/header';
+import { Header } from './components/header/container';
 import { Home } from './components/home';
 import { Footer } from './components/footer';
-import {ROUTES} from "./utils/values";
-import {History} from "./components/history";
-import {Services} from "./components/services";
-import {Contact} from "./components/contact";
-import {Shop} from "./components/shop";
-import {Product} from "./components/product";
+import { History } from './components/history';
+import { Services } from './components/services';
+import { Contact } from './components/contact';
+import { Shop } from './components/shop/container';
+import { Product } from './components/product/container';
+import { ROUTES } from './utils/values';
 
 function App() {
   return (
@@ -64,7 +64,7 @@ function App() {
             <Shop/>
           </Route>
           <Route
-            path={ ROUTES.PRODUCT }
+            path={ `${ROUTES.PRODUCT}/:productId` }
             exact
           >
             <Product/>

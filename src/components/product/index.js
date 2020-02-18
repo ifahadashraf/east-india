@@ -1,8 +1,10 @@
 import React from 'react';
-
+import { useParams } from 'react-router-dom';
 import productImage from '../../img/post-img.jpg';
 
-export const Product = () => {
+export const ProductComponent = ({ products }) => {
+  const { productId } = useParams();
+  const { node: product = {} } = products.find(({ node: {id} }) => id === productId) || {};
   return (
     <>
       <main>
@@ -18,7 +20,7 @@ export const Product = () => {
                     <div className='col-lg-6 col-sm-12 col-md-6 product_thumb pl-mob-0 pr-mob-0'>
                       <div>
                         <img
-                          src={ productImage }
+                          src={ product.images && product.images[0].url }
                           alt='Product Large Image'
                         />
                       </div>
@@ -27,7 +29,7 @@ export const Product = () => {
                       className='col-lg-6 col-sm-12 col-md-6 product_details pl-lg-0 mt-sm-3 mt-mob-2 pl-mob-0 pr-mob-0'
                     >
                       <h2 className='fw-bold playFairDisplay text_color_1 mb-3 fs-25'>
-                        Black Tea
+                        { product.name }
                       </h2>
                       <div className='fw-light fs-16 lh-30 text_color_5 mb-3'>
                         <span>$30.00</span>
@@ -47,35 +49,19 @@ export const Product = () => {
                         <div className='mob_order_div'>
                           <h3 className='fw-bold openSans text_color_5 mb-2 fs-16 order2'>Size</h3>
                           <div className='radio_selector sizesSelctor pull-left mr-sm-3 mb-2 order3'>
-                            <input
-                              type='radio'
-                              id='250g'
-                              name='productSize'
-                              value='250g'
-                            />
-                            <label htmlFor='250g'>250g</label>
-                            <input
-                              type='radio'
-                              id='500g'
-                              name='productSize'
-                              value='500g'
-                              checked
-                            />
-                            <label htmlFor='500g'>500g</label>
-                            <input
-                              type='radio'
-                              id='750g'
-                              name='productSize'
-                              value='750g'
-                            />
-                            <label htmlFor='750g'>750g</label>
-                            <input
-                              type='radio'
-                              id='1kg'
-                              name='productSize'
-                              value='1kg'
-                            />
-                            <label htmlFor='1kg'>1kg</label>
+                            {
+                              product.variants && product.variants.map(({ name }) => (
+                                <>
+                                  <input
+                                    type='radio'
+                                    id='250g'
+                                    name='productSize'
+                                    value='250g'
+                                  />
+                                  <label htmlFor='250g'>{ name }</label>
+                                </>
+                              ))
+                            }
                           </div>
                           <div className='radio_selector typeSelector pull-left order1 mb-3'>
                             <input
@@ -279,7 +265,7 @@ export const Product = () => {
                                   <span
                                     className='carousel-control-prev-icon'
                                     aria-hidden='true'
-                                  ></span>
+                                  />
                                   <span className='sr-only'>Previous</span>
                                 </a>
                                 <a
@@ -291,7 +277,7 @@ export const Product = () => {
                                   <span
                                     className='carousel-control-next-icon'
                                     aria-hidden='true'
-                                  ></span>
+                                  />
                                   <span className='sr-only'>Next</span>
                                 </a>
                               </div>
