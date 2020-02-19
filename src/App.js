@@ -3,6 +3,7 @@ import './css/bootstrap.min.css';
 import './css/style.css';
 import './css/animate.min.css';
 import './css/owl.carousel.min.css';
+import 'font-awesome/css/font-awesome.min.css';
 import './App.css';
 
 import {
@@ -12,7 +13,7 @@ import {
 } from 'react-router-dom';
 
 import { Header } from './components/header/container';
-import { Home } from './components/home';
+import { Home } from './components/home/container';
 import { Footer } from './components/footer';
 import { History } from './components/history';
 import { Services } from './components/services';

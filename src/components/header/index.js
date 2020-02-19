@@ -4,14 +4,7 @@ import {NavLink} from 'react-router-dom';
 import {ROUTES} from '../../utils/values';
 import {client, queries} from '../../api';
 
-export const HeaderComponent = ({ setProducts }) => {
-  useEffect(
-    () => {
-      client.query({ query: queries.GET_N_PRODUCTS(10) })
-        .then(result => setProducts(result.data.products.edges));
-    },
-    [ setProducts ],
-  );
+export const HeaderComponent = () => {
   return (
     <div className='navbar-fixed-top'>
       <nav className='navbar navbar-expand-lg navbar-light'>

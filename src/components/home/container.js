@@ -1,19 +1,17 @@
-import { ShopComponent } from './index';
+import { HomeComponent } from './index';
 import { connect } from 'react-redux';
-import { selectCategoriesFromState, selectProductsFromState} from '../../selectors';
+import { selectProductsFromState} from '../../selectors';
 import { actions } from '../../actions';
 
 const mapStateToProps = state => ({
   products: selectProductsFromState(state),
-  categories: selectCategoriesFromState(state),
 });
 
 const mapDispatchToProps = {
   setProducts: actions.setProducts,
-  setCategories: actions.setCategories,
 };
 
-export const Shop = connect(
+export const Home = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ShopComponent);
+)(HomeComponent);

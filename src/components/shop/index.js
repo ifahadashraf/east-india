@@ -1,8 +1,24 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Banner } from '../banner';
 import { ProductItem } from '../product-item';
+import { client, queries } from '../../api';
 
-export const ShopComponent = ({ products }) => {
+export const ShopComponent = ({ categories, setCategories, products, setProducts }) => {
+  const [selectedCat, setSelectedCat] = useState(null);
+  useEffect(() => {
+    client.query({ query: queries.getNCategories(10) })
+      .then(categoryResults => {
+        setCategories(categoryResults.data.categories.edges);
+        setSelectedCat(categoryResults.data.categories.edges[0].node.id);
+      });
+  }, [ setCategories ]);
+  useEffect(() => {
+    selectedCat &&
+    client.query({ query: queries.getNProducts(10, selectedCat) })
+      .then(productResult => {
+        setProducts(productResult.data.products.edges);
+      });
+  }, [ setProducts, selectedCat ]);
   return(
     <>
       <Banner
@@ -18,20 +34,19 @@ export const ShopComponent = ({ products }) => {
                     <div className='sidebar_left sidebar col-lg-3 col-sm-12 col-md-4 text-left pr-lg-0 max-width-20'>
                       <div className='sidebar_nav'>
                         <ul>
-                          <li><a href='#'>Black Tea</a></li>
-                          <li><a
-                            className='active'
-                            href='#'
-                          >Herbal Infusions</a></li>
-                          <li><a href='#'>White Tea</a></li>
-                          <li><a href='#'>Green Tea</a></li>
-                          <li><a href='#'>Flowering Tea</a></li>
-                          <li><a href='#'>Herbal Infusions</a></li>
-                          <li><a href='#'>Spa Tea</a></li>
-                          <li><a href='#'>Furit/Ice Tea</a></li>
-                          <li><a href='#'>Decaffeinated</a></li>
-                          <li><a href='#'>Tea Enclosures</a></li>
-                          <li><a href='#'>Gift Sets</a></li>
+                          {
+                            categories.map(({node: { id, name }}) => (
+                              <li>
+                                <a
+                                  href='#'
+                                  className={ selectedCat === id && 'active' }
+                                  onClick={ () => setSelectedCat(id) }
+                                >
+                                  { name }
+                                </a>
+                              </li>
+                            ))
+                          }
                         </ul>
                         <div className='text-center btn_100'>
                           <a

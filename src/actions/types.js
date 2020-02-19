@@ -1,1 +1,2 @@
 export const PRODUCTS_SET = 'PRODUCTS_SET';
+export const CATEGORIES_SET = 'CATEGORIES_SET';

@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import productImage from '../../img/post-img.jpg';
+import { client, queries } from "../../api";
 
-export const ProductComponent = ({ products }) => {
+export const ProductComponent = () => {
   const { productId } = useParams();
-  const { node: product = {} } = products.find(({ node: {id} }) => id === productId) || {};
+  const [ product, setProduct ] = useState({});
+  useEffect(() => {
+    client.query({ query: queries.getProductById(productId) })
+      .then(result => setProduct(result.data.product));
+  }, [setProduct, productId]);
   return (
     <>
       <main>
