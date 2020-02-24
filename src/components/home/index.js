@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import titleBar from '../../img/title-bar.jpg';
 import heritageQuality from '../../img/heritage-quality.png';
 import servingMasonry from '../../img/serving-masonry.png';
@@ -9,8 +9,10 @@ import privateLabel from '../../img/private-label.png';
 import storageDistribution from '../../img/storage-distribution.png';
 import postImage from '../../img/post-img.jpg';
 import {client, queries} from '../../api';
+import {ProductTile} from "./product-tile";
 
-export const HomeComponent = ({ products, setProducts }) => {
+export const HomeComponent = () => {
+  const [products, setProducts] = useState([]);
   useEffect(() => {
     client.query({ query: queries.getNProducts(8) })
       .then(productResult => {
@@ -309,36 +311,9 @@ export const HomeComponent = ({ products, setProducts }) => {
                                   {
                                     products.map(({ node }) => (
                                       <div className='col-xs-3'>
-                                        <div className='item mb-sm-5'>
-                                          <a
-                                            id='carousel-selector-0'
-                                            className='selected'
-                                            data-slide-to='0'
-                                            data-target='#product_slider1'
-                                          >
-                                            <div className='img_content_grid text-center'>
-                                              <div className='fixed_size_img_1'>
-                                                <img
-                                                  src={ node.images[0].url }
-                                                  alt='Tea Bag'
-                                                />
-                                              </div>
-                                              <div className='content_box'>
-                                                <h3 className='mt-3 mb-2'>
-                                                  <a
-                                                    href='#'
-                                                    className='playFairDisplay text_color_2 fs-20 fw-bold'
-                                                  >
-                                                    { node.name }
-                                                  </a>
-                                                </h3>
-                                                <p className='lh-22 fw-light fs-16'>
-                                                  { node.description }
-                                                </p>
-                                              </div>
-                                            </div>
-                                          </a>
-                                        </div>
+                                        <ProductTile
+                                          data={ node }
+                                        />
                                       </div>
                                     ))
                                   }

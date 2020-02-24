@@ -1,9 +1,9 @@
 import { ProductComponent } from './index';
 import { connect } from 'react-redux';
-import { selectProductsFromState } from '../../selectors';
+import {selectCartFromLocalStorage, selectProductsFromState} from '../../selectors';
 
-const mapStateToProps = state => ({
-  products: selectProductsFromState(state),
+const mapStateToProps = () => ({
+  cart: selectCartFromLocalStorage(),
 });
 
 const mapDispatchToProps = {

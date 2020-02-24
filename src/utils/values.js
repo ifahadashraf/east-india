@@ -6,4 +6,9 @@ export const ROUTES = {
   SHOP: '/shop',
   CONTACT: '/contact',
   PRODUCT: '/EastIndia/Product',
+  CART: '/cart',
+};
+
+export const CURRENCIES = {
+  'USD': '$',
 };

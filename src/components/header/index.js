@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import logo from '../../img/logo.png';
-import {NavLink} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import {ROUTES} from '../../utils/values';
 import {client, queries} from '../../api';
 
@@ -49,12 +49,15 @@ export const HeaderComponent = () => {
             </div>
             <div className='pull-right'>
               <div className='header_cart'>
-                <span className='text_color_1'>
+                <Link
+                  className='text_color_1'
+                  to={ ROUTES.CART }
+                >
                   <i
                     className='fa fa-shopping-cart'
                     aria-hidden='true'
                   />
-                </span>
+                </Link>
               </div>
             </div>
           </div>

@@ -21,6 +21,7 @@ import { Contact } from './components/contact';
 import { Shop } from './components/shop/container';
 import { Product } from './components/product/container';
 import { ROUTES } from './utils/values';
+import {Cart} from "./components/cart";
 
 function App() {
   return (
@@ -69,6 +70,12 @@ function App() {
             exact
           >
             <Product/>
+          </Route>
+          <Route
+            path={ ROUTES.CART }
+            exact
+          >
+            <Cart/>
           </Route>
         </Switch>
         <Footer/>

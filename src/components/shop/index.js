@@ -3,8 +3,9 @@ import { Banner } from '../banner';
 import { ProductItem } from '../product-item';
 import { client, queries } from '../../api';
 
-export const ShopComponent = ({ categories, setCategories, products, setProducts }) => {
+export const ShopComponent = ({ categories, setCategories }) => {
   const [selectedCat, setSelectedCat] = useState(null);
+  const [products, setProducts] = useState([]);
   useEffect(() => {
     client.query({ query: queries.getNCategories(10) })
       .then(categoryResults => {
@@ -93,7 +94,6 @@ export const ShopComponent = ({ categories, setCategories, products, setProducts
                           />
                         </div>
                       </div>
-
                       <div className='row mt-lg-4 pt-lg-2 mt-md-4 mt-sm-4 mt-mob-2'>
                         {
                           products.map(({ node }) => (
