@@ -1,8 +1,8 @@
 import React from 'react';
 import {getNetTotal, getPrice} from '../../../utils/common';
-import {QuantityInput} from "../../ui/quantity-input";
+import {QuantityInput} from '../../ui/quantity-input';
 
-export const CartItem = ({ data }) => {
+export const CartItem = ({ data, onQuantityChange, onDelete }) => {
   const {
     id,
     productName,
@@ -52,28 +52,10 @@ export const CartItem = ({ data }) => {
           </div>
           <div className='quantity_counter pull-mob-right mb-mob-1 mt-mob-1 pl-sm-1'>
             <div className='input-group'>
-              <input
-                className='button-minus'
-                data-field='quantity'
-                type='button'
-                value='-'
-              />
               <QuantityInput
                 className='quantity-field'
                 quantity={ data.payload.quantity }
-                onChange={ value => {
-                  const items = JSON.parse(localStorage.getItem('cart')) || [];
-                  const cartItem = items
-                    .findIndex(item => item.payload.variantId === id);
-                  items[cartItem].payload.quantity = value;
-                  localStorage.setItem('cart', JSON.stringify(items));
-                } }
-              />
-              <input
-                className='button-minus'
-                data-field='quantity'
-                type='button'
-                value='+'
+                onChange={ value => onQuantityChange(value) }
               />
             </div>
             <div className='clearfix'/>
@@ -94,6 +76,7 @@ export const CartItem = ({ data }) => {
             <i
               className='fa fa-trash'
               aria-hidden='true'
+              onClick={ () => onDelete() }
             />
           </div>
         </div>

@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import productImage from '../../img/post-img.jpg';
 import { client, queries } from '../../api';
-import {CURRENCIES} from '../../utils/values';
 import {getPrice, getPriceRange, isInCart} from '../../utils/common';
-import {ProductTile} from '../home/product-tile';
-import {ProductItem} from '../product-item';
 import {ExploreItem} from './explore-item';
 
 export const ProductComponent = () => {
   const [qty, setQty] = useState('1');
+  const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
 
   const { productId } = useParams();
   const [ product, setProduct ] = useState({});
@@ -19,6 +17,7 @@ export const ProductComponent = () => {
     client.query({ query: queries.getProductById(productId) })
       .then(result => setProduct(result.data.product));
   }, [setProduct, productId]);
+  useEffect(() => { localStorage.setItem('cart', JSON.stringify(cart)); }, [cart]);
   return (
     <>
       {
@@ -127,28 +126,33 @@ export const ProductComponent = () => {
                             <button
                               className='bg_color_3 text-white openSans fw-regular fs-13 rounded-12 border-0 height39'
                               onClick={ () => {
-                                const cart = JSON.parse(localStorage.getItem('cart')) || [];
-                                cart.push({
-                                  variant: {
-                                    ...product.variants.find(({ id }) => id === selectedVariant),
-                                    thumbnail: product.thumbnail.url,
-                                    description: product.description,
-                                    productName: product.name,
+                                setCart([
+                                  ...cart,
+                                  {
+                                    variant: {
+                                      ...product.variants.find(({ id }) => id === selectedVariant),
+                                      thumbnail: product.thumbnail.url,
+                                      description: product.description,
+                                      productName: product.name,
+                                    },
+                                    payload: {
+                                      variantId: selectedVariant,
+                                      quantity: qty,
+                                    },
                                   },
-                                  payload: {
-                                    variantId: selectedVariant,
-                                    quantity: qty,
-                                  },
-                                });
-                                localStorage.setItem('cart', JSON.stringify(cart));
+                                ]);
                               } }
                               disabled={
                                 !selectedVariant
                                   ? true
-                                  : isInCart(selectedVariant)
+                                  : isInCart(cart, selectedVariant)
                               }
                             >
-                                Add to Cart
+                              {
+                                isInCart(cart, selectedVariant)
+                                  ? 'Added'
+                                  : 'Add to Cart'
+                              }
                             </button>
                           </div>
                           <div className='clearfix'/>
