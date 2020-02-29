@@ -1,4 +1,4 @@
-import React, from 'react';
+import React from 'react';
 import logo from '../../img/logo.png';
 import {Link, NavLink} from 'react-router-dom';
 import {ROUTES} from '../../utils/values';
