@@ -23,11 +23,10 @@ export const ProductComponent = () => {
       {
         Object.keys(product).length &&
         <main>
-          <div className='container'>
-            <div className='sub_container_80'>
+          <div className='container mg-tp-150'>
+            <div className='margin-top-7-lrg sub_container_80'>
               <div
                 className='pt-mob-4 two_column_grid pb-sm-5 pt-sm-5 pt-5 mb-mob-5'
-                style={ { marginTop: '150px' } }
               >
                 <div className='mb-mob-2'>
                   <div className='mob_container animated fadeInUp'>

@@ -1,8 +1,7 @@
-import React, {useEffect} from 'react';
+import React, from 'react';
 import logo from '../../img/logo.png';
 import {Link, NavLink} from 'react-router-dom';
 import {ROUTES} from '../../utils/values';
-import {client, queries} from '../../api';
 
 export const HeaderComponent = () => {
   return (

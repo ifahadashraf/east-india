@@ -1,4 +1,4 @@
-import React from 'react';
+import React, from 'react';
 import './css/bootstrap.min.css';
 import './css/style.css';
 import './css/animate.min.css';
@@ -21,7 +21,7 @@ import { Contact } from './components/contact';
 import { Shop } from './components/shop/container';
 import { Product } from './components/product/container';
 import { ROUTES } from './utils/values';
-import {Cart} from "./components/cart";
+import { Cart } from './components/cart';
 
 function App() {
   return (

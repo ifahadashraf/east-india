@@ -1,8 +1,8 @@
 import { gql } from 'apollo-boost';
 
-export const getNProducts = (pageSize, categoryId) => gql`
+export const getNProducts = (pageSize, categoryId, after = '', search = '') => gql`
 {
-  products(first: ${pageSize}, filter:{ categories:"${categoryId}"}) {
+  products(after: "${after}", first: ${pageSize}, filter:{ categories:"${categoryId}", search: "${search}" }) {
     edges {
       node {
         id
@@ -24,6 +24,13 @@ export const getNProducts = (pageSize, categoryId) => gql`
           url
         }
       }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      __typename
     }
   }
 }
