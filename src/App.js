@@ -1,4 +1,4 @@
-import React, from 'react';
+import React from 'react';
 import './css/bootstrap.min.css';
 import './css/style.css';
 import './css/animate.min.css';
@@ -22,6 +22,7 @@ import { Shop } from './components/shop/container';
 import { Product } from './components/product/container';
 import { ROUTES } from './utils/values';
 import { Cart } from './components/cart';
+import {Checkout} from "./components/checkout";
 
 function App() {
   return (
@@ -76,6 +77,12 @@ function App() {
             exact
           >
             <Cart/>
+          </Route>
+          <Route
+            path={ ROUTES.CHECKOUT }
+            exact
+          >
+            <Checkout/>
           </Route>
         </Switch>
         <Footer/>

@@ -8,7 +8,7 @@ import consultancy from '../../img/consultancy.png';
 import privateLabel from '../../img/private-label.png';
 import storageDistribution from '../../img/storage-distribution.png';
 import postImage from '../../img/post-img.jpg';
-import {client, queries} from '../../api';
+import { client, queries } from '../../api';
 import {ProductTile} from "./product-tile";
 
 export const HomeComponent = () => {

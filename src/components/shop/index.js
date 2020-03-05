@@ -66,6 +66,7 @@ export const ShopComponent = ({ categories, setCategories }) => {
                                   className={ selectedCat === id && 'active' }
                                   onClick={ () => {
                                     setSelectedCat(id);
+                                    setProducts([]);
                                     setAfter('');
                                   } }
                                 >
@@ -131,7 +132,7 @@ export const ShopComponent = ({ categories, setCategories }) => {
                       </div>
                       <div className='row mt-lg-4 pt-lg-2 mt-md-4 mt-sm-4 mt-mob-2'>
                         {
-                          !isLoading ? products.map(({ node }) => (
+                          (products.length) ? products.map(({ node }) => (
                             <ProductItem
                               data={ node }
                             />
@@ -140,15 +141,18 @@ export const ShopComponent = ({ categories, setCategories }) => {
                         }
                       </div>
                       {
-                        !isLoading && <button
+                        products.length ? <button
                           className='bg_color_3 text-white openSans fw-regular fs-14 rounded-10'
                           onClick={ () => setRefresh(!refresh) }
                           style={ {
                             display: loadMore ? 'block' : 'none',
                           } }
                         >
-                          Load More
+                          {
+                            !isLoading ? 'Load More' : 'Loading...'
+                          }
                         </button>
+                          : ''
                       }
                     </div>
                   </div>

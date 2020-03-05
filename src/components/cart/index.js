@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {CartItem} from './cart-item';
 import {getPrice} from '../../utils/common';
+import {Link} from "react-router-dom";
+import {ROUTES} from "../../utils/values";
 
 export const Cart = () => {
   const [items, setItems] = useState(JSON.parse(localStorage.getItem('cart')) || []);
@@ -104,12 +106,12 @@ export const Cart = () => {
               <div
                 className='col-sm-12 tabular_form_btn btn_1 mt-3 pt-mob-1 pull-right pr-mob-1 pl-mob-1 text-right mob-text-center'
               >
-                <a
+                <Link
                   className='bg_color_3 text-white openSans fw-regular fs-14 rounded-10'
-                  href='#'
+                  to={ ROUTES.CHECKOUT }
                 >
                   Proceed to Checkout
-                </a>
+                </Link>
               </div>
             </div>
           </div>

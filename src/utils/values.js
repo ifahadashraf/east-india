@@ -7,6 +7,7 @@ export const ROUTES = {
   CONTACT: '/contact',
   PRODUCT: '/EastIndia/Product',
   CART: '/cart',
+  CHECKOUT: '/checkout',
 };
 
 export const MAIN_ROUTES = {
@@ -16,6 +17,7 @@ export const MAIN_ROUTES = {
   NEWS: '/news',
   SHOP: '/shop',
   CONTACT: '/contact',
+  CHECKOUT: '/checkout',
 };
 
 export const CURRENCIES = {
