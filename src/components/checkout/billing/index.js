@@ -1,133 +1,240 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {Formik} from "formik";
+import {client, queries} from "../../../api";
 
-export const Billing = ({ onContinue }) => (
-  <div>
-    <div
-      id='billing'
-      className='col-sm-12 pt-4 pt-md-5 height90'
-    />
+const postBillingData = (checkoutId, values, setSubmitting, onContinue) => {
+  const {
+    city,
+    companyName,
+    country,
+    firstName,
+    lastName,
+    phone,
+    state,
+    streetName,
+    zipCode,
+  } = values;
 
-    <div className='col-sm-12 mb-2 px-lg-1 pl-mob-0 pr-mob-0'>
-      <h3 className='fw-regular openSans text_color_1 fs-16'>
-        3. Billing Address
-      </h3>
-      <hr className='bg_color_1 height1 border-0 mt-mob-2 mb-mob-3 mobile-hidden' />
-      <hr className='bg_color_1 mt-mob-2 mb-mob-3 mobile-only ' />
-    </div>
+  client.mutate({
+    mutation: queries.postBillingDetails(),
+    variables: {
+      checkoutId,
+      billingAddress: {
+        city,
+        country,
+        firstName,
+        lastName,
+        phone,
+        postalCode: zipCode,
+        streetAddress1: `${companyName} ${streetName}, ${city}, ${state}`,
+      },
+    },
+  })
+    .then(() => {
+      setSubmitting(false);
+      onContinue({
+        city,
+        country,
+        firstName,
+        lastName,
+        phone,
+        postalCode: zipCode,
+        streetAddress1: `${companyName} ${streetName}, ${city}, ${state}`,
+      });
+    });
+};
+
+export const Billing = ({ checkoutId, initialValues, onContinue }) => {
+  const [isSame, setIsSame] = useState(localStorage.getItem('isSame') || '');
+  useEffect(() => {
+    localStorage.setItem('isSame', isSame);
+  }, [ isSame ]);
+  return (
     <div>
-      <div className='row'>
-        <div className='col-sm-12 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
-          <div className='checkBox'>
-            <input
-              type='checkbox'
-              id='agreedTerms'
-              name='agreedTerms'
-              value=''
-            /><label
-              htmlFor='agreedTerms'
-              className='checkbox_label'
-            >Same as shipping address</label>
+      <div
+        id='billing'
+        className='col-sm-12 pt-4 pt-md-5 height90'
+      />
+
+      <div className='col-sm-12 mb-2 px-lg-1 pl-mob-0 pr-mob-0'>
+        <h3 className='fw-regular openSans text_color_1 fs-16'>
+          3. Billing Address
+        </h3>
+        <hr className='bg_color_1 height1 border-0 mt-mob-2 mb-mob-3 mobile-hidden' />
+        <hr className='bg_color_1 mt-mob-2 mb-mob-3 mobile-only ' />
+      </div>
+      <div>
+        <div className='row'>
+          <div className='col-sm-12 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
+            <div className='checkBox'>
+              <input
+                type='checkbox'
+                id='agreedTerms'
+                name='agreedTerms'
+                onChange={ () => {
+                  setIsSame(isSame ? '' : '1');
+                } }
+                checked={ isSame === '1' }
+              />
+              <label
+                htmlFor='agreedTerms'
+                className='checkbox_label'
+              >
+                Same as shipping address
+              </label>
+            </div>
           </div>
-        </div>
-        <div className='col-sm-12 col-md-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
-          <input
-            type='text'
-            className='form-control'
-            id='fName'
-            placeholder='First Name'
-          />
-        </div>
+          <Formik
+            enableReinitialize
+            initialValues={
+              isSame
+                ? initialValues
+                : Object.keys(initialValues).reduce((obj, key) => {
+                  obj[key] = '';
+                  return obj;
+                }, {}) }
+            onSubmit={ (values, { setSubmitting }) => {
+              postBillingData(checkoutId, values, setSubmitting, onContinue);
+            } }
+          >
+            { ({ values, handleChange, handleSubmit, isSubmitting }) => (
+              <form onSubmit={ handleSubmit }>
+                <div className='col-sm-12 mb-2 px-lg-1 pl-mob-0 pr-mob-0'>
+                  <h3 className='fw-regular openSans text_color_1 fs-16'>
+                    1. Shipping Address
+                  </h3>
+                  <hr className='bg_color_1 height1 border-0 mt-mob-2 mb-mob-3 mobile-hidden' />
+                  <hr className='bg_color_1 mt-mob-2 mb-mob-3 mobile-only ' />
+                </div>
+                <div>
+                  <div className='row'>
+                    <div className='col-sm-12 col-md-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
+                      <input
+                        className='form-control'
+                        name='firstName'
+                        onChange={ handleChange }
+                        placeholder='First Name'
+                        type='text'
+                        value={ values.firstName }
+                      />
+                    </div>
 
-        <div className='col-sm-12 col-md-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
-          <input
-            type='text'
-            className='form-control'
-            id='lName'
-            placeholder='Last Name'
-          />
-        </div>
+                    <div className='col-sm-12 col-md-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
+                      <input
+                        className='form-control'
+                        name='lastName'
+                        onChange={ handleChange }
+                        placeholder='Last Name'
+                        type='text'
+                        value={ values.lastName }
+                      />
+                    </div>
 
-        <div className='col-sm-12 col-md-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
-          <input
-            type='text'
-            className='form-control'
-            id='stName'
-            placeholder='Street Name'
-          />
-        </div>
+                    <div className='col-sm-12 col-md-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
+                      <input
+                        className='form-control'
+                        name='streetName'
+                        onChange={ handleChange }
+                        placeholder='Street Name'
+                        type='text'
+                        value={ values.streetName }
+                      />
+                    </div>
+                    <div className='col-sm-12 col-md-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
+                      <input
+                        type='text'
+                        className='form-control'
+                        name='companyName'
+                        placeholder='Company Name (Optional)'
+                        onChange={ handleChange }
+                        value={ values.companyName }
+                      />
+                    </div>
+                    <div className='col-sm-12 col-md-6 col-lg-3 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
+                      <input
+                        type='text'
+                        className='form-control'
+                        name='zipCode'
+                        placeholder='Zip Code'
+                        onChange={ handleChange }
+                        value={ values.zipCode }
+                      />
+                    </div>
 
-        <div className='col-sm-12 col-md-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
-          <input
-            type='text'
-            className='form-control'
-            id='comName'
-            placeholder='Company Name (Optional)'
-          />
-        </div>
-        <div className='col-sm-12 col-md-6 col-lg-3 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
-          <input
-            type='text'
-            className='form-control'
-            id='zipcode'
-            placeholder='Zip Code'
-          />
-        </div>
+                    <div className='col-sm-12 col-md-6 col-lg-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
+                      <input
+                        type='text'
+                        className='form-control'
+                        id='city'
+                        placeholder='City'
+                        onChange={ handleChange }
+                        value={ values.city }
+                      />
+                    </div>
 
-        <div className='col-sm-12 col-md-6 col-lg-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
-          <input
-            type='text'
-            className='form-control'
-            id='city'
-            placeholder='City'
-          />
-        </div>
+                    <div className='col-sm-12 col-md-6 col-lg-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
+                      <input
+                        type='text'
+                        className='form-control'
+                        id='state'
+                        placeholder='State / Province'
+                        onChange={ handleChange }
+                        value={ values.state }
+                      />
+                    </div>
 
-        <div className='col-sm-12 col-md-6 col-lg-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
-          <input
-            type='text'
-            className='form-control'
-            id='state'
-            placeholder='State / Province'
-          />
-        </div>
+                    <div className='col-sm-12 col-md-6 col-lg-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
+                      <input
+                        type='text'
+                        className='form-control'
+                        id='country'
+                        placeholder='Country'
+                        onChange={ handleChange }
+                        value={ values.country }
+                      />
+                    </div>
 
-        <div className='col-sm-12 col-md-6 col-lg-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
-          <input
-            type='text'
-            className='form-control'
-            id='country'
-            placeholder='Country'
-          />
-        </div>
+                    <div className='col-sm-12 col-md-6 col-lg-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
+                      <input
+                        type='email'
+                        className='form-control'
+                        id='email'
+                        placeholder='Email Address'
+                        onChange={ handleChange }
+                        value={ values.email }
+                      />
+                    </div>
 
-        <div className='col-sm-12 col-md-6 col-lg-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
-          <input
-            type='email'
-            className='form-control'
-            id='email'
-            placeholder='Email Address'
-          />
-        </div>
-
-        <div className='col-sm-12 col-md-6 col-lg-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
-          <input
-            type='text'
-            className='form-control'
-            id='phone'
-            placeholder='Phone Number'
-          />
-        </div>
-
-        <div className='col-sm-12 pl-0 pr-0 pl-mob-0 pr-mob-0'>
-          <div className='btn_2 mt-3 mt-mob-3 pt-mob-1 mob-text-center'>
-            <button
-              onClick={ () => onContinue() }
-              className='text-white bg_color_3 openSans fw-regular fs-14 rounded-10'
-            >Continue to
-              Payment</button>
-          </div>
+                    <div className='col-sm-12 col-md-6 col-lg-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
+                      <input
+                        type='text'
+                        className='form-control'
+                        id='phone'
+                        placeholder='Phone Number'
+                        onChange={ handleChange }
+                        value={ values.phone }
+                      />
+                    </div>
+                    <div className='col-sm-12 pl-0 pr-0 pl-mob-0 pr-mob-0'>
+                      <div className='btn_2 mt-3 mt-mob-3 pt-mob-1 mob-text-center'>
+                        <button
+                          className='text-white bg_color_3 openSans fw-regular fs-14 rounded-10'
+                          type='submit'
+                          disabled={ isSubmitting }
+                        >
+                          {
+                            isSubmitting ? 'Please wait...' : 'Continue to Payment'
+                          }
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            ) }
+          </Formik>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+}

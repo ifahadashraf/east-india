@@ -75,12 +75,6 @@ export const Cart = () => {
                   </div>
                   <div className='clearfix'/>
                 </div>
-                {/*<div className='table_footer_data mb-2'>*/}
-                {/*  <div className='pull-left fw-extraBold openSans fs-16 text_color_1 mr-4 mr-mob-3 pl-3 pr-mob-1'>Discount*/}
-                {/*  </div>*/}
-                {/*  <div className='pull-left fw-regular openSans fs-16 text_color_1'>£1.99</div>*/}
-                {/*  <div className='clearfix'/>*/}
-                {/*</div>*/}
                 <div className='table_footer_data sub_total mt-3 pt-3'>
                   <div className='pull-left fw-extraBold openSans fs-16 text_color_1 mr-4 mr-mob-3 pl-3 pr-mob-1'>
                     SubTotal

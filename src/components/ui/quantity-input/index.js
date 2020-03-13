@@ -11,8 +11,10 @@ export const QuantityInput = ({ quantity, onChange, className }) => {
         type='button'
         value='-'
         onClick={ () => {
-          setQty(parseInt(qty - 1));
-          onChange(parseInt(qty - 1));
+          if(qty > 1) {
+            setQty(parseInt(qty - 1));
+            onChange(parseInt(qty - 1));
+          }
         } }
       />
       <input

@@ -219,3 +219,541 @@ mutation {
   }
 }
 `;
+
+export const postShippingDetails = () => gql`
+fragment Price on TaxedMoney {
+  gross {
+    amount
+    currency
+    __typename
+  }
+  net {
+    amount
+    currency
+    __typename
+  }
+  __typename
+}
+
+fragment ProductVariant on ProductVariant {
+  id
+  name
+  pricing {
+    onSale
+    priceUndiscounted {
+      ...Price
+      __typename
+    }
+    price {
+      ...Price
+      __typename
+    }
+    __typename
+  }
+  product {
+    id
+    name
+    thumbnail {
+      url
+      alt
+      __typename
+    }
+    thumbnail2x: thumbnail(size: 510) {
+      url
+      __typename
+    }
+    __typename
+  }
+  __typename
+}
+
+fragment CheckoutLine on CheckoutLine {
+  id
+  quantity
+  totalPrice {
+    ...Price
+    __typename
+  }
+  variant {
+    stockQuantity
+    ...ProductVariant
+    __typename
+  }
+  quantity
+  __typename
+}
+
+fragment Address on Address {
+  id
+  firstName
+  lastName
+  companyName
+  streetAddress1
+  streetAddress2
+  city
+  postalCode
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  phone
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  __typename
+}
+
+fragment ShippingMethod on ShippingMethod {
+  id
+  name
+  price {
+    currency
+    amount
+    __typename
+  }
+  __typename
+}
+
+fragment Checkout on Checkout {
+  availablePaymentGateways {
+    name
+    config {
+      field
+      value
+      __typename
+    }
+    __typename
+  }
+  token
+  id
+  totalPrice {
+    ...Price
+    __typename
+  }
+  subtotalPrice {
+    ...Price
+    __typename
+  }
+  billingAddress {
+    ...Address
+    __typename
+  }
+  shippingAddress {
+    ...Address
+    __typename
+  }
+  email
+  availableShippingMethods {
+    ...ShippingMethod
+    __typename
+  }
+  shippingMethod {
+    ...ShippingMethod
+    __typename
+  }
+  shippingPrice {
+    ...Price
+    __typename
+  }
+  lines {
+    ...CheckoutLine
+    __typename
+  }
+  isShippingRequired
+  discount {
+    currency
+    amount
+    __typename
+  }
+  discountName
+  translatedDiscountName
+  voucherCode
+  __typename
+}
+
+mutation CreateCheckout($checkoutInput: CheckoutCreateInput!) {
+  checkoutCreate(input: $checkoutInput) {
+    errors {
+      field
+      message
+      __typename
+    }
+    checkout {
+      ...Checkout
+      __typename
+    }
+    __typename
+  }
+}
+`;
+
+export const postShippingMethodDetails = () => gql`
+fragment Price on TaxedMoney {
+  gross {
+    amount
+    currency
+    __typename
+  }
+  net {
+    amount
+    currency
+    __typename
+  }
+  __typename
+}
+
+fragment ProductVariant on ProductVariant {
+  id
+  name
+  pricing {
+    onSale
+    priceUndiscounted {
+      ...Price
+      __typename
+    }
+    price {
+      ...Price
+      __typename
+    }
+    __typename
+  }
+  product {
+    id
+    name
+    thumbnail {
+      url
+      alt
+      __typename
+    }
+    thumbnail2x: thumbnail(size: 510) {
+      url
+      __typename
+    }
+    __typename
+  }
+  __typename
+}
+
+fragment CheckoutLine on CheckoutLine {
+  id
+  quantity
+  totalPrice {
+    ...Price
+    __typename
+  }
+  variant {
+    stockQuantity
+    ...ProductVariant
+    __typename
+  }
+  __typename
+}
+
+fragment Address on Address {
+  id
+  firstName
+  lastName
+  companyName
+  streetAddress1
+  streetAddress2
+  city
+  postalCode
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  phone
+  __typename
+}
+
+fragment ShippingMethod on ShippingMethod {
+  id
+  name
+  price {
+    currency
+    amount
+    __typename
+  }
+  __typename
+}
+
+fragment Checkout on Checkout {
+  availablePaymentGateways {
+    name
+    config {
+      field
+      value
+      __typename
+    }
+    __typename
+  }
+  token
+  id
+  totalPrice {
+    ...Price
+    __typename
+  }
+  subtotalPrice {
+    ...Price
+    __typename
+  }
+  billingAddress {
+    ...Address
+    __typename
+  }
+  shippingAddress {
+    ...Address
+    __typename
+  }
+  email
+  availableShippingMethods {
+    ...ShippingMethod
+    __typename
+  }
+  shippingMethod {
+    ...ShippingMethod
+    __typename
+  }
+  shippingPrice {
+    ...Price
+    __typename
+  }
+  lines {
+    ...CheckoutLine
+    __typename
+  }
+  isShippingRequired
+  discount {
+    currency
+    amount
+    __typename
+  }
+  discountName
+  translatedDiscountName
+  voucherCode
+  __typename
+}
+
+mutation updateCheckoutShippingOptions(
+  $checkoutId: ID!
+  $shippingMethodId: ID!
+) {
+  checkoutShippingMethodUpdate(
+    checkoutId: $checkoutId
+    shippingMethodId: $shippingMethodId
+  ) {
+    errors {
+      field
+      message
+      __typename
+    }
+    checkout {
+      ...Checkout
+      __typename
+    }
+    __typename
+  }
+}
+`;
+
+export const postBillingDetails = () => gql`
+fragment Price on TaxedMoney {
+  gross {
+    amount
+    currency
+    __typename
+  }
+  net {
+    amount
+    currency
+    __typename
+  }
+  __typename
+}
+
+fragment ProductVariant on ProductVariant {
+  id
+  name
+  pricing {
+    onSale
+    priceUndiscounted {
+      ...Price
+      __typename
+    }
+    price {
+      ...Price
+      __typename
+    }
+    __typename
+  }
+  product {
+    id
+    name
+    thumbnail {
+      url
+      alt
+      __typename
+    }
+    thumbnail2x: thumbnail(size: 510) {
+      url
+      __typename
+    }
+    __typename
+  }
+  __typename
+}
+
+fragment CheckoutLine on CheckoutLine {
+  id
+  quantity
+  totalPrice {
+    ...Price
+    __typename
+  }
+  variant {
+    stockQuantity
+    ...ProductVariant
+    __typename
+  }
+  quantity
+  __typename
+}
+
+fragment Address on Address {
+  id
+  firstName
+  lastName
+  companyName
+  streetAddress1
+  streetAddress2
+  city
+  postalCode
+  country {
+    code
+    country
+    __typename
+  }
+  countryArea
+  phone
+  isDefaultBillingAddress
+  isDefaultShippingAddress
+  __typename
+}
+
+fragment ShippingMethod on ShippingMethod {
+  id
+  name
+  price {
+    currency
+    amount
+    __typename
+  }
+  __typename
+}
+
+fragment Checkout on Checkout {
+  availablePaymentGateways {
+    name
+    config {
+      field
+      value
+      __typename
+    }
+    __typename
+  }
+  token
+  id
+  totalPrice {
+    ...Price
+    __typename
+  }
+  subtotalPrice {
+    ...Price
+    __typename
+  }
+  billingAddress {
+    ...Address
+    __typename
+  }
+  shippingAddress {
+    ...Address
+    __typename
+  }
+  email
+  availableShippingMethods {
+    ...ShippingMethod
+    __typename
+  }
+  shippingMethod {
+    ...ShippingMethod
+    __typename
+  }
+  shippingPrice {
+    ...Price
+    __typename
+  }
+  lines {
+    ...CheckoutLine
+    __typename
+  }
+  isShippingRequired
+  discount {
+    currency
+    amount
+    __typename
+  }
+  discountName
+  translatedDiscountName
+  voucherCode
+  __typename
+}
+
+mutation UpdateCheckoutBillingAddress($checkoutId: ID!, $billingAddress: AddressInput!) {
+  checkoutBillingAddressUpdate(checkoutId: $checkoutId, billingAddress: $billingAddress) {
+    errors {
+      field
+      message
+      __typename
+    }
+    checkout {
+      ...Checkout
+      __typename
+    }
+    __typename
+  }
+}
+`;
+
+export const createPayment = () => gql`
+mutation createPayment($input: PaymentInput!, $checkoutId: ID!) {
+  checkoutPaymentCreate(input: $input, checkoutId: $checkoutId) {
+    errors {
+      field
+      message
+      __typename
+    }
+    __typename
+  }
+}
+`;
+
+export const completeCheckout = () => gql`
+mutation completeCheckout($checkoutId: ID!) {
+  checkoutComplete(checkoutId: $checkoutId) {
+    errors {
+      field
+      message
+      __typename
+    }
+    order {
+      id
+      token
+      __typename
+    }
+    __typename
+  }
+}
+`;

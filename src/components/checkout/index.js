@@ -1,15 +1,35 @@
-import React, { useState } from 'react';
-import {Shipping } from "./shipping";
-import {ShippingMethod} from "./shipping-method";
-import {Billing} from "./billing";
-import {Payment} from "./payment";
+import React, {useEffect, useState} from 'react';
+import {Shipping } from './shipping';
+import {ShippingMethod} from './shipping-method';
+import {Billing} from './billing';
+import {Payment} from './payment';
+import {getBasicPrice, getPrice} from "../../utils/common";
+import {ROUTES} from "../../utils/values";
 
-export const Checkout = () => {
-  const [visibility, setVisibility] = useState({
-    method: false,
-    billing: false,
-    payment: false,
-  });
+export const Checkout = ({ history }) => {
+  const [state, setState] = useState(
+    JSON.parse(localStorage.getItem('checkout')) ||
+    {
+      method: {
+        visibility: false,
+        data: {},
+      },
+      billing: {
+        visibility: false,
+        data: '',
+      },
+      payment: {
+        visibility: false,
+        data: '',
+      },
+      shipping: {
+        data: '',
+      },
+    });
+  const items = JSON.parse(localStorage.getItem('cart')) || [];
+  useEffect(() => {
+    localStorage.setItem('checkout', JSON.stringify(state));
+  }, [ state ]);
   return (
     <main>
       <div className='container'>
@@ -32,36 +52,81 @@ export const Checkout = () => {
                         className='form-inline form_elements field_height40 signInForm checkBoxForm pr-lg-4'
                       >
                         <Shipping
-                          onContinue={ data => {
-                            setVisibility({
-                              ...visibility,
-                              method: true,
+                          initialValues={ state.shipping.data.values || {} }
+                          onContinue={ (checkout, values) => {
+                            setState({
+                              ...state,
+                              shipping: {
+                                ...state.shipping,
+                                data: {
+                                  checkout,
+                                  values,
+                                },
+                              },
+                              method: {
+                                ...state.method,
+                                visibility: true,
+                              },
                             });
                           } }
                         />
                         {
-                          visibility.method && <ShippingMethod
-                            onContinue={ data => {
-                              setVisibility({
-                                ...visibility,
-                                billing: true,
+                          state.method.visibility && <ShippingMethod
+                            shippingMethods={ state.shipping.data.checkout.availableShippingMethods }
+                            checkoutId={ state.shipping.data.checkout.id }
+                            checked={ state.method.data }
+                            onContinue={ method => {
+                              setState({
+                                ...state,
+                                method: {
+                                  ...state.method,
+                                  data: method,
+                                },
+                                billing: {
+                                  ...state.billing,
+                                  visibility: true,
+                                },
                               });
                             } }
                           />
                         }
                         {
-                          visibility.billing && <Billing
-                            onContinue={ data => {
-                              setVisibility({
-                                ...visibility,
-                                payment: true,
+                          state.billing.visibility && <Billing
+                            initialValues={ state.shipping.data.values }
+                            checkoutId={ state.shipping.data.checkout.id }
+                            onContinue={ billingAddress => {
+                              setState({
+                                ...state,
+                                billing: {
+                                  ...state.billing,
+                                  data: billingAddress,
+                                },
+                                payment: {
+                                  ...state.payment,
+                                  visibility: true,
+                                },
                               });
                             } }
                           />
                         }
                         {
-                          visibility.payment && <Payment
-                            onContinue={ data => console.log(data) }
+                          state.payment.visibility && <Payment
+                            onContinue={ token => {
+                              setState({
+                                ...state,
+                                payment: {
+                                  ...state.payment,
+                                  data: token,
+                                },
+                              });
+                              history.push(ROUTES.REVIEW);
+                            } }
+                            currency={ getPrice(items[0].variant)[0] }
+                            amount={
+                              items.reduce((sum, item) => {
+                                return sum + (item.payload.quantity * getPrice(item.variant)[1]);
+                              }, 0) + (Object.keys(state.method.data).length ? getBasicPrice(state.method.data.price)[1] : 0)
+                            }
                           />
                         }
                       </div>
@@ -74,40 +139,53 @@ export const Checkout = () => {
                         </h3>
                         <hr className='bg_color_1 height1 border-0 mt-4 mb-3 opacity3' />
                       </div>
-                      <div className='col-sm-12 tabular_data_grid px-0'>
-                        <div className='pull-left product_info_col mt-mob-2 w-100'>
-                          <div className='col-data pl-mob-0 pr-mob-0 px-0 pb-3 pt-2'>
-                            <div className='product_img pull-left mr-4'>
-                              <img
-                                src='img/products/product.png'
-                                alt='Product Image'
-                              />
-                            </div>
+                      {
+                        items.map(item => (
+                          <div className='col-sm-12 tabular_data_grid px-0'>
+                            <div className='pull-left product_info_col mt-mob-2 w-100'>
+                              <div className='col-data pl-mob-0 pr-mob-0 px-0 pb-3 pt-2'>
+                                <div className='product_img pull-left mr-4'>
+                                  <img
+                                    src={ item.variant.thumbnail }
+                                    alt='Product Image'
+                                  />
+                                </div>
 
-                            <div className='pull-left product_desc'>
-                              <span className='fw-regular openSans text_color_1 fs-16 mb-1'>£9.99</span>
-                              <h3 className='fw-regular openSans text_color_1 fs-16 mb-1'>
-                                Black Tea
-                              </h3>
-                              <p className='fw-regular openSans fs-14 lh-20 text_color_5'>
-                                This is a short product description
-                              </p>
-                              <div className='fw-regular openSans fs-14 lh-20 text_color_5'>
-                                Qty: <span>1</span>
+                                <div className='pull-left product_desc'>
+                                  <span className='fw-regular openSans text_color_1 fs-16 mb-1'>{ getPrice(item.variant).join('') }</span>
+                                  <h3 className='fw-regular openSans text_color_1 fs-16 mb-1'>
+                                    { `${item.variant.productName} - ${item.variant.name}` }
+                                  </h3>
+                                  <p className='fw-regular openSans fs-14 lh-20 text_color_5'>
+                                    { item.variant.description }
+                                  </p>
+                                  <div className='fw-regular openSans fs-14 lh-20 text_color_5'>
+                                    Qty: <span>{ item.payload.quantity }</span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
+                            <div className='clearfix'></div>
                           </div>
-                        </div>
-                        <div className='clearfix'></div>
-                      </div>
-
+                        ))
+                      }
                       <div className='col-sm-12 w-100 mt-3 px-0'>
                         <div className='table_footer_data mb-2'>
                           <div className='pull-left fw-regular openSans fs-16 text_color_1 mr-4 mr-mob-3 pl-0 pr-mob-1'>
                             SubTotal
                           </div>
                           <div className='pull-right fw-regular openSans fs-16 text_color_1'>
-                            £8.00
+                            {
+                              items.length
+                                ? `${
+                                  getPrice(items[0].variant)[0]
+                                }${
+                                  items.reduce((sum, item) => {
+                                    return sum + (item.payload.quantity * getPrice(item.variant)[1]);
+                                  }, 0)
+                                }`
+                                : '-'
+                            }
                           </div>
                           <div className='clearfix'></div>
                         </div>
@@ -117,7 +195,7 @@ export const Checkout = () => {
                             Delivery
                           </div>
                           <div className='pull-right fw-regular openSans fs-16 text_color_1'>
-                            £15.00
+                            { Object.keys(state.method.data).length && getBasicPrice(state.method.data.price).join('') }
                           </div>
                           <div className='clearfix'></div>
                         </div>
@@ -126,7 +204,17 @@ export const Checkout = () => {
                             Grand Total
                           </div>
                           <div className='pull-right fw-regular openSans fs-16 text_color_1'>
-                            £15.00
+                            {
+                              items.length
+                                ? `${
+                                  getPrice(items[0].variant)[0]
+                                }${
+                                  items.reduce((sum, item) => {
+                                    return sum + (item.payload.quantity * getPrice(item.variant)[1]);
+                                  }, 0) + (Object.keys(state.method.data).length ? getBasicPrice(state.method.data.price)[1] : 0)
+                                }`
+                                : '-'
+                            }
                           </div>
                           <div className='clearfix'></div>
                         </div>

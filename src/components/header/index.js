@@ -3,7 +3,7 @@ import logo from '../../img/logo.png';
 import {Link, NavLink} from 'react-router-dom';
 import {ROUTES} from '../../utils/values';
 
-export const HeaderComponent = () => {
+export const HeaderComponent = ({ path }) => {
   return (
     <div className='navbar-fixed-top'>
       <nav className='navbar navbar-expand-lg navbar-light'>

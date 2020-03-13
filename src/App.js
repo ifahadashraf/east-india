@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './css/bootstrap.min.css';
 import './css/style.css';
 import './css/animate.min.css';
@@ -9,7 +9,7 @@ import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
+  Route, withRouter,
 } from 'react-router-dom';
 
 import { Header } from './components/header/container';
@@ -20,14 +20,26 @@ import { Services } from './components/services';
 import { Contact } from './components/contact';
 import { Shop } from './components/shop/container';
 import { Product } from './components/product/container';
-import { ROUTES } from './utils/values';
+import {MAIN_ROUTES, ROUTES} from './utils/values';
 import { Cart } from './components/cart';
-import {Checkout} from "./components/checkout";
+import {Checkout} from './components/checkout';
+import {Review} from "./components/review";
 
-function App() {
-  return (
-    <Router>
-      <div className='page-wraper'>
+
+class App extends Component {
+  render() {
+    console.log(this.props.location.pathname);
+    return (
+      <div
+        className={
+          `page-wraper ${
+            MAIN_ROUTES
+              .findIndex( (route) =>
+                this.props.location.pathname.split('/')[1].includes(route)
+              ) > -1 &&
+            'page_without_banner'
+          }`
+        }>
         <Header/>
         <Switch>
           <Route
@@ -82,13 +94,21 @@ function App() {
             path={ ROUTES.CHECKOUT }
             exact
           >
-            <Checkout/>
+            <Checkout
+              history={ this.props.history }
+            />
+          </Route>
+          <Route
+            path={ ROUTES.REVIEW }
+            exact
+          >
+            <Review/>
           </Route>
         </Switch>
         <Footer/>
       </div>
-    </Router>
-  );
+    );
+  }
 }
 
-export default App;
+export default withRouter(App);

@@ -10,6 +10,13 @@ export const getPrice = variant => {
   ];
 };
 
+export const getBasicPrice = price => {
+  return [
+    CURRENCIES[price.currency],
+    price.amount,
+  ];
+};
+
 export const getPriceRange = product => {
   return `
   ${CURRENCIES[product.pricing.priceRange.start.net.currency]}
