@@ -730,6 +730,15 @@ mutation UpdateCheckoutBillingAddress($checkoutId: ID!, $billingAddress: Address
 export const createPayment = () => gql`
 mutation createPayment($input: PaymentInput!, $checkoutId: ID!) {
   checkoutPaymentCreate(input: $input, checkoutId: $checkoutId) {
+    payment {
+      id
+      chargeStatus
+    }
+    paymentErrors {
+      field
+      message
+      code
+    }
     errors {
       field
       message
@@ -751,6 +760,36 @@ mutation completeCheckout($checkoutId: ID!) {
     order {
       id
       token
+      __typename
+    }
+    __typename
+  }
+}
+`;
+
+export const createCustomer = () => gql`
+mutation customerCreate($input: UserCreateInput!) {
+  customerCreate(input: $input) {
+    errors {
+      field
+      message
+      __typename
+    }
+    user {
+      id
+      __typename
+    }
+    __typename
+  }
+}
+`;
+
+export const checkoutCustomerAttach = () => gql`
+mutation checkoutCustomerAttach($checkoutId: ID!, $customerId: ID!) {
+  checkoutCustomerAttach(checkoutId: $checkoutId, customerId: $customerId) {
+    errors {
+      field
+      message
       __typename
     }
     __typename

@@ -19,11 +19,9 @@ export const getBasicPrice = price => {
 
 export const getPriceRange = product => {
   return `
-  ${CURRENCIES[product.pricing.priceRange.start.net.currency]}
-  ${product.pricing.priceRange.start.net.amount} 
+  ${CURRENCIES[product.pricing.priceRange.start.net.currency]}${product.pricing.priceRange.start.net.amount} 
   - 
-  ${CURRENCIES[product.pricing.priceRange.stop.net.currency]}
-  ${product.pricing.priceRange.stop.net.amount}
+  ${CURRENCIES[product.pricing.priceRange.stop.net.currency]}${product.pricing.priceRange.stop.net.amount}
   `;
 };
 

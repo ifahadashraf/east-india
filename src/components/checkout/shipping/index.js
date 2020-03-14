@@ -42,6 +42,7 @@ const postShippingData = (values, setSubmitting, onContinue) => {
       });
   } else {
     alert('No items');
+    setSubmitting(false);
   }
 };
 

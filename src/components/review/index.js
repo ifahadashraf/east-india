@@ -1,36 +1,41 @@
 import React, {useEffect, useState} from 'react';
 import {CartItem} from './cart-item';
-import {getPrice} from '../../utils/common';
-import {Link} from "react-router-dom";
-import {ROUTES} from "../../utils/values";
-import {client, queries} from "../../api";
+import {getBasicPrice, getPrice} from '../../utils/common';
+import {Link} from 'react-router-dom';
+import {ROUTES} from '../../utils/values';
+import {client, queries} from '../../api';
 
 const createPaymentAndPlaceOrder = (checkout, setCheckout, setSubmitting, setSuccessStatus) => {
+  setSubmitting(true);
   client.mutate({
     mutation: queries.createPayment(),
     variables: {
       checkoutId: checkout.shipping.data.checkout.id,
       input: {
-        amount: 73.45,
+        amount: checkout.payment.data.amount,
         billingAddress: { ...checkout.billing.data },
         gateway: 'Stripe',
-        token: checkout.payment.data,
+        token: checkout.payment.data.token,
       },
     },
   })
-    .then(() => {
-      client.mutate({
-        mutation: queries.completeCheckout(),
-        variables: {
-          checkoutId: checkout.shipping.data.checkout.id,
-        },
-      })
-        .then(resp => {
-          setSubmitting(false);
-          setSuccessStatus(true);
-          setCheckout(null);
-          localStorage.clear();
-        });
+    .then(resp => {
+      if(resp.data.checkoutPaymentCreate.errors.length) {
+        alert('Oops ! Something went wrong. Try again later.');
+      } else {
+        client.mutate({
+          mutation: queries.completeCheckout(),
+          variables: {
+            checkoutId: checkout.shipping.data.checkout.id,
+          },
+        })
+          .then(() => {
+            setCheckout(null);
+            setSubmitting(false);
+            setSuccessStatus(true);
+            localStorage.clear();
+          });
+      }
     });
 };
 
@@ -41,14 +46,36 @@ export const Review = () => {
   const [isSuccessful, setIsSuccessful] = useState(false);
   return (
     <main>
-      { isSuccessful && <h1>Thank you ! Order has been placed.</h1> }
+      { isSuccessful && <div className='container mg-tp-150'>
+        <div className='pt-mob-4 two_column_grid pb-sm-5 pt-sm-5 pt-5 mb-mob-5 mb-sm-3 mb-md-4'>
+          <div className='mb-mob-2 animated fadeInUp'>
+            <div >
+              <div className='col-sm-12'>
+                <h1 className='fw-extraBold openSans text_color_1 mt-4 mb-sm-4 mb-mob-0 pb-sm-3 fs-24 text-center'>
+                  Thank you. Your order has been placed !
+                </h1>
+                <Link
+                  className='text-white bg_color_3 openSans fw-regular fs-14 rounded-10 btn_100 text-center'
+                  style={ {
+                    padding: '10px',
+                  } }
+                  type='submit'
+                  to={ ROUTES.SHOP }
+                >
+                  Return to shopping
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
       {
-        checkout &&
+        checkout && checkout.payment.data &&
         <div className='container mg-tp-150'>
           <div className='pt-mob-4 two_column_grid pb-sm-5 pt-sm-5 pt-5 mb-mob-5 mb-sm-3 mb-md-4'>
             <div className='mb-mob-2 animated fadeInUp'>
-              <div
-              >
+              <div >
                 <div className='col-sm-12'>
                   <h1 className='fw-extraBold openSans text_color_1 mt-4 mb-sm-4 mb-mob-0 pb-sm-3 fs-24'>
                     Review & Confirm
@@ -91,15 +118,20 @@ export const Review = () => {
                     <div className='pull-left fw-regular openSans fs-16 text_color_1'>
                       {
                         items.length
-                          ? `${
-                            getPrice(items[0].variant)[0]
-                          }${
-                            items.reduce((sum, item) => {
-                              return sum + (item.payload.quantity * getPrice(item.variant)[1]);
-                            }, 0)
-                          }`
+                          ? `${ getPrice(items[0].variant)[0] }${ items.reduce((sum, item) => {
+                            return sum + (item.payload.quantity * getPrice(item.variant)[1]);
+                          }, 0) }`
                           : '-'
                       }
+                    </div>
+                    <div className='clearfix'/>
+                  </div>
+                  <div className='table_footer_data mb-2'>
+                    <div className='pull-left fw-extraBold openSans fs-16 text_color_1 mr-4 mr-mob-3 pl-3 pr-mob-1'>
+                      Delivery
+                    </div>
+                    <div className='pull-left fw-regular openSans fs-16 text_color_1'>
+                      { Object.keys(checkout.method.data).length && getBasicPrice(checkout.method.data.price).join('') }
                     </div>
                     <div className='clearfix'/>
                   </div>
@@ -115,7 +147,7 @@ export const Review = () => {
                           }${
                             items.reduce((sum, item) => {
                               return sum + (item.payload.quantity * getPrice(item.variant)[1]);
-                            }, 0)
+                            }, 0) + (Object.keys(checkout.method.data).length ? getBasicPrice(checkout.method.data.price)[1] : 0)
                           }`
                           : '-'
                       }
@@ -129,7 +161,10 @@ export const Review = () => {
                   className='col-sm-12 tabular_form_btn btn_1 mt-3 pt-mob-1 pull-right pr-mob-1 pl-mob-1 text-right mob-text-center'
                 >
                   <button
-                    className='text-white bg_color_3 openSans fw-regular fs-14 rounded-10'
+                    className='text-white bg_color_3 openSans fw-regular fs-14 rounded-10 btn_100'
+                    style={ {
+                      padding: '10px',
+                    } }
                     type='submit'
                     disabled={ isLoading }
                     onClick={ () => createPaymentAndPlaceOrder(checkout, setCheckout, setIsLoading, setIsSuccessful) }

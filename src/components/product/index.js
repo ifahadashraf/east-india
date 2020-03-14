@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import productImage from '../../img/post-img.jpg';
 import { client, queries } from '../../api';
 import {getPrice, getPriceRange, isInCart} from '../../utils/common';
@@ -19,15 +19,12 @@ export const ProductComponent = () => {
   }, [setProduct, productId]);
   useEffect(() => { localStorage.setItem('cart', JSON.stringify(cart)); }, [cart]);
   return (
-    <>
-      {
-        Object.keys(product).length &&
-        <main>
-          <div className='container mg-tp-150'>
-            <div className='margin-top-7-lrg sub_container_80'>
-              <div
-                className='pt-mob-4 two_column_grid pb-sm-5 pt-sm-5 pt-5 mb-mob-5'
-              >
+    <main>
+      <div className='container mg-tp-150'>
+        {
+          Object.keys(product).length
+            ? <div className='margin-top-7-lrg sub_container_80'>
+              <div className='pt-mob-4 two_column_grid pb-sm-5 pt-sm-5 pt-5 mb-mob-5'>
                 <div className='mb-mob-2'>
                   <div className='mob_container animated fadeInUp'>
                     <div className='row'>
@@ -53,10 +50,6 @@ export const ProductComponent = () => {
                                 : getPriceRange(product)
                             }
                           </span>
-                          <br/>
-                          <div className='pull-mob-left'>
-                            <span>= £23.10</span>
-                          </div>
                           <div className='pull-mob-right mt-sm-2'>
                             <span>including 20% VAT</span>
                           </div>
@@ -73,6 +66,7 @@ export const ProductComponent = () => {
                                     id={ id }
                                     name='productSize'
                                     value={ id }
+                                    min={ 1 }
                                     onChange={ () => setSelectedVariant(id) }
                                   />
                                   <label htmlFor={ id }>{ name }</label>
@@ -102,7 +96,7 @@ export const ProductComponent = () => {
                             <span>
                                 SKU: {
                                 product.variants.find(({ id }) => id === selectedVariant)
-                                  && product.variants.find(({ id }) => id === selectedVariant).sku
+                              && product.variants.find(({ id }) => id === selectedVariant).sku
                               }
                             </span>
                           </div>
@@ -171,7 +165,7 @@ export const ProductComponent = () => {
                     playFairDisplay text_color_1 mt-2 mb-3 pb-2 mb-lg-4 text-center pl-sm-3
                     pr-sm-3 pl-md-5 pr-md-5'
                     >
-                      Description
+                    Description
                     </h2>
                     <p className='text-left text_color_5 fs-16 fw-light lh-30'>
                       {
@@ -213,7 +207,7 @@ export const ProductComponent = () => {
                       className='fw-bold title_size_25 tab_title_size_25 mob_title_size_30
                     playFairDisplay text_color_1 mt-2 mb-0 text-center pl-sm-3 pr-sm-3 pl-md-5 pr-md-5'
                     >
-                      Explore..
+                    Explore..
                     </h2>
                   </div>
                 </div>
@@ -236,15 +230,15 @@ export const ProductComponent = () => {
                                     <div className='fixed_size_img_1'><a href='#'><img
                                       src={ productImage }
                                       alt='Product Image'
-                                    /></a></div>
+                                                                                  /></a></div>
                                     <div className='content_box mob-text-left'>
                                       <h3 className='mt-1 mb-1 lh-30'><a
                                         href='#'
                                         className='fw-bold fs-16 playFairDisplay text_color_1'
-                                      >Best
-                                        Tea in London</a></h3>
+                                                                      >Best
+                                      Tea in London</a></h3>
                                       <p className='fw-light openSans fs-14 lh-20'>Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing elit. Nulla tincidunt dignissim eros, ac laoreet.</p>
+                                      adipiscing elit. Nulla tincidunt dignissim eros, ac laoreet.</p>
                                     </div>
                                   </div>
                                   <div
@@ -254,15 +248,15 @@ export const ProductComponent = () => {
                                     <div className='fixed_size_img_1'><a href='#'><img
                                       src={ productImage }
                                       alt='Product Image'
-                                    /></a></div>
+                                                                                  /></a></div>
                                     <div className='content_box mob-text-left'>
                                       <h3 className='mt-1 mb-1 lh-30'><a
                                         href='#'
                                         className='fw-bold fs-16 playFairDisplay text_color_1'
-                                      >Best
-                                        Tea in London</a></h3>
+                                                                      >Best
+                                      Tea in London</a></h3>
                                       <p className='fw-light openSans fs-14 lh-20'>Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing elit. Nulla tincidunt dignissim eros, ac laoreet.</p>
+                                      adipiscing elit. Nulla tincidunt dignissim eros, ac laoreet.</p>
                                     </div>
                                   </div>
                                   <div
@@ -272,15 +266,15 @@ export const ProductComponent = () => {
                                     <div className='fixed_size_img_1'><a href='#'><img
                                       src={ productImage }
                                       alt='Product Image'
-                                    /></a></div>
+                                                                                  /></a></div>
                                     <div className='content_box mob-text-left'>
                                       <h3 className='mt-1 mb-1 lh-30'><a
                                         href='#'
                                         className='fw-bold fs-16 playFairDisplay text_color_1'
-                                      >Best
-                                        Tea in London</a></h3>
+                                                                      >Best
+                                      Tea in London</a></h3>
                                       <p className='fw-light openSans fs-14 lh-20'>Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing elit. Nulla tincidunt dignissim eros, ac laoreet.</p>
+                                      adipiscing elit. Nulla tincidunt dignissim eros, ac laoreet.</p>
                                     </div>
                                   </div>
                                   <div
@@ -290,16 +284,16 @@ export const ProductComponent = () => {
                                     <div className='fixed_size_img_1'><a href='#'><img
                                       src={ productImage }
                                       alt='Product Image'
-                                    /></a></div>
+                                                                                  /></a></div>
                                     <div className='content_box mob-text-left'>
                                       <h3 className='mt-1 mb-1 lh-30'><a
                                         href='#'
                                         className='fw-bold fs-16 playFairDisplay text_color_1'
-                                      >Best
-                                        Tea in London</a></h3>
+                                                                      >Best
+                                      Tea in London</a></h3>
                                       <p className='fw-light openSans fs-14 lh-20'>
-                                        Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing elit. Nulla tincidunt dignissim eros, ac laoreet.
+                                      Lorem ipsum dolor sit amet, consectetur
+                                      adipiscing elit. Nulla tincidunt dignissim eros, ac laoreet.
                                       </p>
                                     </div>
                                   </div>
@@ -347,10 +341,19 @@ export const ProductComponent = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </main>
-
-      }
-    </>
+            : <div className='pt-mob-4 two_column_grid pb-sm-5 pt-sm-5 pt-5 mb-mob-5 mb-sm-3 mb-md-4'>
+              <div className='mb-mob-2 animated fadeInUp'>
+                <div >
+                  <div className='col-sm-12'>
+                    <h1 className='fw-extraBold openSans text_color_1 mt-4 mb-sm-4 mb-mob-0 pb-sm-3 fs-24 text-center'>
+                      Loading...
+                    </h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+        }
+      </div>
+    </main>
   );
 };

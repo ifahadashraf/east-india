@@ -5,6 +5,7 @@ import {Billing} from './billing';
 import {Payment} from './payment';
 import {getBasicPrice, getPrice} from "../../utils/common";
 import {ROUTES} from "../../utils/values";
+import {Link} from "react-router-dom";
 
 export const Checkout = ({ history }) => {
   const [state, setState] = useState(
@@ -38,8 +39,15 @@ export const Checkout = ({ history }) => {
             <div className='mb-mob-2 animated fadeInUp'>
               <div>
                 <div>
+                  <Link
+                    className='text_color_1 openSans fw-bold fs-14 rounded-10 text-center'
+                    type='submit'
+                    to={ ROUTES.SHOP }
+                  >
+                    { '< Return to shopping' }
+                  </Link>
                   <h1 className='fw-extraBold openSans text_color_1 mt-4 mb-sm-4 mb-mob-0 pb-sm-3 fs-24'>
-                    Check Out
+                    Checkout
                   </h1>
                 </div>
               </div>
@@ -111,12 +119,18 @@ export const Checkout = ({ history }) => {
                         }
                         {
                           state.payment.visibility && <Payment
+                            email={ state.shipping.data.values.email }
                             onContinue={ token => {
                               setState({
                                 ...state,
                                 payment: {
                                   ...state.payment,
-                                  data: token,
+                                  data: {
+                                    token,
+                                    amount: items.reduce((sum, item) => {
+                                      return sum + (item.payload.quantity * getPrice(item.variant)[1]);
+                                    }, 0) + (Object.keys(state.method.data).length ? getBasicPrice(state.method.data.price)[1] : 0),
+                                  },
                                 },
                               });
                               history.push(ROUTES.REVIEW);
@@ -230,4 +244,4 @@ export const Checkout = ({ history }) => {
       </div>
     </main>
   );
-}
+};

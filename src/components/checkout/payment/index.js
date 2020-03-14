@@ -3,7 +3,7 @@ import StripeCheckout from 'react-stripe-checkout';
 import logo from '../../../img/logo.png';
 import {CURRENCIES} from "../../../utils/values";
 
-export const Payment = ({ amount, currency, onContinue }) => {
+export const Payment = ({ email, amount, currency, onContinue }) => {
   return (
     <div>
       <div
@@ -27,12 +27,13 @@ export const Payment = ({ amount, currency, onContinue }) => {
             currency={ Object.keys(CURRENCIES).find(key => CURRENCIES[key] === currency) }
             // image='https://stripe.com/img/documentation/checkout/marketplace.png'
             image={ logo }
-            label='Pay with 💳'
             locale='auto'
             name='East India'
             // shippingAddress
             stripeKey={ 'pk_test_tmInRLkDVjg2dMdWA20UNcpX00zBa0EiKN' }
             token={ (token) => onContinue(token.id) }
+            panelLabel='Pay {{amount}}'
+            email={ email }
           >
             {
               <div className='col-sm-12 pl-0 pr-0'>

@@ -305,21 +305,34 @@ export const HomeComponent = () => {
                                   <span className='sr-only'>Next</span>
                                 </a>
                               </div>
-
-                              <div className='carousel-indicators'>
-                                <div className='row'>
-                                  {
-                                    products.map(({ node }) => (
-                                      <div className='col-xs-3'>
-                                        <ProductTile
-                                          data={ node }
-                                        />
+                              {
+                                products.length
+                                  ? <div className='carousel-indicators'>
+                                    <div className='row'>
+                                      {
+                                        products.map(({ node }) => (
+                                          <div className='col-xs-3'>
+                                            <ProductTile
+                                              data={ node }
+                                            />
+                                          </div>
+                                        ))
+                                      }
+                                      <div className='clearfix'/>
+                                    </div>
+                                  </div>
+                                  : <div className='pt-mob-4 two_column_grid pb-sm-5 pt-sm-5 pt-5 mb-mob-5 mb-sm-3 mb-md-4'>
+                                    <div className='mb-mob-2 animated fadeInUp'>
+                                      <div >
+                                        <div className='col-sm-12'>
+                                          <h1 className='fw-extraBold openSans text_color_1 mt-4 mb-sm-4 mb-mob-0 pb-sm-3 fs-24 text-center'>
+                                            Loading...
+                                          </h1>
+                                        </div>
                                       </div>
-                                    ))
-                                  }
-                                  <div className='clearfix'/>
-                                </div>
-                              </div>
+                                    </div>
+                                  </div>
+                              }
                             </div>
                           </div>
                         </div>

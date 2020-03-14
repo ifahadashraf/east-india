@@ -2,12 +2,13 @@ import React, {useState} from 'react';
 import {MethodCheckBoxGroup} from "./method-checkbox";
 import {client, queries} from "../../../api";
 
-const postShippingMethodDetails = (checkoutId, shippingMethodId, setSubmitting, onContinue, selectedMethod) => {
+const postShippingMethodDetails = (checkoutId, shippingMethod, setSubmitting, onContinue, selectedMethod) => {
+  setSubmitting(true);
   client.mutate({
     mutation: queries.postShippingMethodDetails(),
     variables: {
       checkoutId,
-      shippingMethodId,
+      shippingMethodId: shippingMethod.id,
     },
   })
     .then(() => {
@@ -17,7 +18,7 @@ const postShippingMethodDetails = (checkoutId, shippingMethodId, setSubmitting, 
 };
 
 export const ShippingMethod = ({ checkoutId, shippingMethods, checked, onContinue }) => {
-  const [selectedMethod, setSelectedMethod] = useState(null);
+  const [selectedMethod, setSelectedMethod] = useState(checked);
   const [isLoading, setLoading] = useState(false);
   return (
     <>
@@ -50,7 +51,7 @@ export const ShippingMethod = ({ checkoutId, shippingMethods, checked, onContinu
                 disabled={ isLoading }
               >
                 {
-                  isLoading ? 'Please wat...' : 'Continue to Billing'
+                  isLoading ? 'Please wait...' : 'Continue to Billing'
                 }
               </button>
             </div>
