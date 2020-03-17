@@ -222,11 +222,11 @@ export const Checkout = ({ history }) => {
                               items.length
                                 ? `${
                                   getPrice(items[0].variant)[0]
-                                }${
+                                }${(
                                   items.reduce((sum, item) => {
                                     return sum + (item.payload.quantity * getPrice(item.variant)[1]);
                                   }, 0) + (Object.keys(state.method.data).length ? getBasicPrice(state.method.data.price)[1] : 0)
-                                }`
+                                ).toFixed(2)}`
                                 : '-'
                             }
                           </div>

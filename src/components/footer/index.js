@@ -1,4 +1,6 @@
 import React from 'react';
+import {Link} from "react-router-dom";
+import {ROUTES} from "../../utils/values";
 
 export const Footer = () => (
   <footer
@@ -36,8 +38,8 @@ export const Footer = () => (
             <li><a href='about.html'>About Us</a></li>
             <li><a href='#'>Work With Us</a></li>
             <li><a href='policy.html'> Privacy Policy </a></li>
-            <li><a href='policy.html'> Cookie Policy</a></li>
-            <li><a href='policy.html'>Terms &amp; Conditions</a></li>
+            <li><Link to={ ROUTES.COOKIE }> Cookie Policy</Link></li>
+            <li><Link to={ ROUTES.TERMS }>Terms &amp; Conditions</Link></li>
           </ul>
         </div>
         <div className='col-lg-2 col-md-3 col-sm-6'>

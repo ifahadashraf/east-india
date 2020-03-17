@@ -1,6 +1,7 @@
 import React from 'react';
 import {client, queries} from '../../../api';
 import {Formik} from 'formik';
+import {CountrySelect} from "../../ui/country-select";
 
 const postShippingData = (values, setSubmitting, onContinue) => {
   const {
@@ -142,7 +143,7 @@ export const Shipping = ({ initialValues, onContinue }) => {
                 </div>
 
                 <div className='col-sm-12 col-md-6 col-lg-6 form_field mb-2 pr-lg-1 pl-lg-1 pl-mob-0 pr-mob-0'>
-                  <input
+                  <CountrySelect
                     type='text'
                     className='form-control'
                     id='country'

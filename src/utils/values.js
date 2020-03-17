@@ -9,13 +9,16 @@ export const ROUTES = {
   CART: '/cart',
   CHECKOUT: '/checkout',
   REVIEW: '/review',
+  TERMS: '/terms',
+  COOKIE: '/cookie-policy',
 };
 
 export const MAIN_ROUTES = [
   'checkout',
   'review',
   'EastIndia',
-  '/cart',
+  'cart',
+  'terms',
 ];
 
 export const CURRENCIES = {

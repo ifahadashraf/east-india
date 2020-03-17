@@ -12,7 +12,7 @@ const createPaymentAndPlaceOrder = (checkout, setCheckout, setSubmitting, setSuc
     variables: {
       checkoutId: checkout.shipping.data.checkout.id,
       input: {
-        amount: checkout.payment.data.amount,
+        amount: checkout.payment.data.amount.toFixed(2),
         billingAddress: { ...checkout.billing.data },
         gateway: 'Stripe',
         token: checkout.payment.data.token,
@@ -22,6 +22,7 @@ const createPaymentAndPlaceOrder = (checkout, setCheckout, setSubmitting, setSuc
     .then(resp => {
       if(resp.data.checkoutPaymentCreate.errors.length) {
         alert('Oops ! Something went wrong. Try again later.');
+        setSubmitting(false);
       } else {
         client.mutate({
           mutation: queries.completeCheckout(),
@@ -144,11 +145,11 @@ export const Review = () => {
                         items.length
                           ? `${
                             getPrice(items[0].variant)[0]
-                          }${
+                          }${(
                             items.reduce((sum, item) => {
                               return sum + (item.payload.quantity * getPrice(item.variant)[1]);
                             }, 0) + (Object.keys(checkout.method.data).length ? getBasicPrice(checkout.method.data.price)[1] : 0)
-                          }`
+                          ).toFixed(2)}`
                           : '-'
                       }
                     </div>

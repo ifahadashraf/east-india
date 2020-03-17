@@ -24,6 +24,8 @@ import {MAIN_ROUTES, ROUTES} from './utils/values';
 import { Cart } from './components/cart';
 import {Checkout} from './components/checkout';
 import {Review} from "./components/review";
+import {TermsConditions} from "./components/footer/terms-conditions";
+import {CookiePolicy} from "./components/footer/cookie-policy";
 
 
 class App extends Component {
@@ -103,6 +105,18 @@ class App extends Component {
             exact
           >
             <Review/>
+          </Route>
+          <Route
+            path={ ROUTES.TERMS }
+            exact
+          >
+            <TermsConditions/>
+          </Route>
+          <Route
+            path={ ROUTES.COOKIE }
+            exact
+          >
+            <CookiePolicy/>
           </Route>
         </Switch>
         <Footer/>

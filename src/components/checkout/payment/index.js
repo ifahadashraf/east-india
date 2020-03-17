@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import StripeCheckout from 'react-stripe-checkout';
 import logo from '../../../img/logo.png';
-import {CURRENCIES} from "../../../utils/values";
+import {CURRENCIES} from '../../../utils/values';
 
 export const Payment = ({ email, amount, currency, onContinue }) => {
   return (
@@ -19,7 +19,6 @@ export const Payment = ({ email, amount, currency, onContinue }) => {
         <hr className='bg_color_1 mt-mob-2 mb-mob-3 mobile-only ' />
       </div>
       <div>
-        <label></label>
         <div className='row'>
           <StripeCheckout
             allowRememberMe={ false }
