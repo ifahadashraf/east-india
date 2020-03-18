@@ -19,10 +19,14 @@ export const ProductTile = ({
     >
       <div className='img_content_grid text-center'>
         <div className='fixed_size_img_1'>
-          <img
-            src={ thumbnail2x && thumbnail2x.url }
-            alt='Tea Bag'
-          />
+          <Link
+            to={ `${ROUTES.PRODUCT}/${id}` }
+          >
+            <img
+              src={ thumbnail2x && thumbnail2x.url }
+              alt='Tea Bag'
+            />
+          </Link>
         </div>
         <div className='content_box'>
           <h3 className='mt-3 mb-2'>

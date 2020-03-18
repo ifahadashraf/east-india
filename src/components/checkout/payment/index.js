@@ -4,6 +4,7 @@ import logo from '../../../img/logo.png';
 import {CURRENCIES} from '../../../utils/values';
 
 export const Payment = ({ email, amount, currency, onContinue }) => {
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <div>
       <div
@@ -30,7 +31,10 @@ export const Payment = ({ email, amount, currency, onContinue }) => {
             name='East India'
             // shippingAddress
             stripeKey={ 'pk_test_tmInRLkDVjg2dMdWA20UNcpX00zBa0EiKN' }
-            token={ (token) => onContinue(token.id) }
+            token={ (token) => {
+              setIsLoading(false);
+              onContinue(token.id);
+            } }
             panelLabel='Pay {{amount}}'
             email={ email }
           >
@@ -39,8 +43,11 @@ export const Payment = ({ email, amount, currency, onContinue }) => {
                 <div className='btn_2 mt-3 mt-mob-3 pt-mob-1 mob-text-center'>
                   <button
                     className='text-white bg_color_3 openSans fw-regular fs-14 rounded-10'
+                    onClick={ () => setIsLoading(true) }
                   >
-                    Pay via Credit Card
+                    {
+                      isLoading ? 'Please wait...' : 'Pay via Credit Card'
+                    }
                   </button>
                 </div>
               </div>

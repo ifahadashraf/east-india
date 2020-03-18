@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useReducer} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -8,11 +8,14 @@ import { store } from './store';
 import {
   BrowserRouter as Router,
 } from 'react-router-dom';
+import {GlobalStateProvider} from "./components/global";
 
 ReactDOM.render(
   <Provider store={ store }>
     <Router>
-      <App />
+      <GlobalStateProvider>
+        <App />
+      </GlobalStateProvider>
     </Router>
   </Provider>
   ,

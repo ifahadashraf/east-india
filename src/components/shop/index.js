@@ -62,7 +62,7 @@ export const ShopComponent = ({ categories, setCategories }) => {
                             categories.map(({node: { id, name }}) => (
                               <li>
                                 <a
-                                  href='#'
+                                  style={ { cursor: 'pointer' } }
                                   className={ selectedCat === id && 'active' }
                                   onClick={ () => {
                                     setSelectedCat(id);

@@ -29,7 +29,7 @@ export const Footer = () => (
             <li className='h_menu'><a href='contact.html'>Contact</a></li>
             <li className='h_menu'><a href='#'>Payment & Orders</a></li>
             <li className='h_menu'><a href='delivery.html'>Delivery</a></li>
-            <li className='proposition_link'><a href='faq.html'>FAQ</a></li>
+            <li className='proposition_link'><Link to={ ROUTES.FAQ }>FAQ</Link></li>
           </ul>
         </div>
         <div className='col-lg-2 col-md-3 col-sm-4'>

@@ -4,8 +4,10 @@ import productImage from '../../img/post-img.jpg';
 import { client, queries } from '../../api';
 import {getPrice, getPriceRange, isInCart} from '../../utils/common';
 import {ExploreItem} from './explore-item';
+import useGlobalState from "../global";
 
 export const ProductComponent = () => {
+  const {cartCount, setCartCount} = useGlobalState();
   const [qty, setQty] = useState('1');
   const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || []);
 
@@ -134,6 +136,7 @@ export const ProductComponent = () => {
                                     },
                                   },
                                 ]);
+                                setCartCount(cartCount + 1);
                               } }
                               disabled={
                                 !selectedVariant

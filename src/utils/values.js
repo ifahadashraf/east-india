@@ -11,6 +11,7 @@ export const ROUTES = {
   REVIEW: '/review',
   TERMS: '/terms',
   COOKIE: '/cookie-policy',
+  FAQ: '/faq',
 };
 
 export const MAIN_ROUTES = [
@@ -19,6 +20,7 @@ export const MAIN_ROUTES = [
   'EastIndia',
   'cart',
   'terms',
+  'faq',
 ];
 
 export const CURRENCIES = {

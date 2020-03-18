@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   categories: [],
 };
 
-export const productsReducer = (state = INITIAL_STATE, action) => {
+export const uiReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case types.PRODUCTS_SET:
       return {

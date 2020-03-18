@@ -1,9 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../../img/logo.png';
 import {Link, NavLink} from 'react-router-dom';
 import {ROUTES} from '../../utils/values';
+import useGlobalState from '../global';
+import AsyncSelect from 'react-select/async';
+import {client, queries} from '../../api';
 
-export const HeaderComponent = ({ path }) => {
+const searchData = (query, callback) => {
+  client.query({
+    query: queries.search(),
+    variables: {
+      query,
+    },
+  })
+    .then(resp => {
+      callback(resp.data.products.edges.map(
+        ({ node }) => ({ label: node.name, value: node.id }),
+      ));
+    });
+};
+
+export const HeaderComponent = ({ history }) => {
+  const {cartCount, setCartCount} = useGlobalState();
+  const [items] = useState(JSON.parse(localStorage.getItem('cart')) || []);
+  const [timeoutCounter, setTimeoutCounter] = useState(0);
+  const [search, setSearch] = useState('');
+  useEffect(() => {
+    setCartCount(items.length);
+  }, []);
   return (
     <div className='navbar-fixed-top'>
       <nav className='navbar navbar-expand-lg navbar-light'>
@@ -28,23 +52,29 @@ export const HeaderComponent = ({ path }) => {
           >
             <span className='navbar-toggler-icon'/>
           </button>
+          {/*Asal*/}
           <div className='sub_header'>
             <div className='nav_search pull-left header_search'>
-              <form
-                action='#'
-                method='post'
-              >
-                <input
-                  type='text'
-                  className='form-control'
-                  id='search'
-                  placeholder='Search....'
-                />
-                <i
-                  className='fa fa-search'
-                  aria-hidden='true'
-                />
-              </form>
+              <AsyncSelect
+                isClearable
+                cacheOptions
+                style={ { minWidth: '30px' } }
+                placeholder='Search...'
+                value={ search }
+                onChange={ option => {
+                  setSearch('');
+                  history.push(`${ROUTES.PRODUCT}/${option.value}`);
+                }  }
+                loadOptions={ (input, callback) => {
+                  clearTimeout(timeoutCounter);
+                  input && setTimeoutCounter(setTimeout(() => {
+                    searchData(
+                      input,
+                      callback,
+                    );
+                  }, 500));
+                } }
+              />
             </div>
             <div className='pull-right'>
               <div className='header_cart'>
@@ -56,6 +86,12 @@ export const HeaderComponent = ({ path }) => {
                     className='fa fa-shopping-cart'
                     aria-hidden='true'
                   />
+                  <span
+                    className='openSans text_color_1 p-2'
+                    style={ { fontSize: '13px' } }
+                  >
+                    { cartCount ? cartCount : '' }
+                  </span>
                 </Link>
               </div>
             </div>
@@ -67,6 +103,23 @@ export const HeaderComponent = ({ path }) => {
         id='navbarSupportedContent'
       >
         <div className='nav_search pull-left header_nav_search'>
+          <AsyncSelect
+            cacheOptions
+            placeholder='Select'
+            onChange={ option => {
+              history.push(`${ROUTES.PRODUCT}/${option.value}`);
+            }  }
+            loadOptions={ (input, callback) => {
+              clearTimeout(timeoutCounter);
+              input && setTimeoutCounter(setTimeout(() => {
+                searchData(
+                  input,
+                  callback,
+                );
+              }, 500));
+            } }
+            defaultOptions={ searchResults }
+          />
           <form
             action='#'
             method='post'

@@ -3,8 +3,10 @@ import {CartItem} from './cart-item';
 import {getPrice} from '../../utils/common';
 import {Link} from "react-router-dom";
 import {ROUTES} from "../../utils/values";
+import useGlobalState from "../global";
 
 export const Cart = () => {
+  const {setCartCount} = useGlobalState();
   const [items, setItems] = useState(JSON.parse(localStorage.getItem('cart')) || []);
   useEffect(() => { localStorage.setItem('cart', JSON.stringify(items)); }, [items]);
   return (
@@ -43,7 +45,11 @@ export const Cart = () => {
                 items.map(cartItem => (
                   <CartItem
                     data={ cartItem }
-                    onDelete={ () => setItems(items.filter(({ variant }) => variant.id !== cartItem.variant.id)) }
+                    onDelete={ () => {
+                      const newItems = items.filter(({ variant }) => variant.id !== cartItem.variant.id)
+                      setItems(newItems);
+                      setCartCount(newItems.length);
+                    } }
                     onQuantityChange={ newQty => {
                       const newItems = [ ...items ];
                       const changedItem = newItems.findIndex(({ variant }) => variant.id === cartItem.variant.id);

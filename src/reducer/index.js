@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import { productsReducer } from './products';
+import { uiReducer } from './uiReducer';
 
 export const rootReducer = combineReducers({
-  products: productsReducer,
+  ui: uiReducer,
 });

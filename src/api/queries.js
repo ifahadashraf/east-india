@@ -796,3 +796,41 @@ mutation checkoutCustomerAttach($checkoutId: ID!, $customerId: ID!) {
   }
 }
 `;
+
+export const search = () => gql`
+query SearchResults($query: String!) {
+  products(filter: {search: $query}, first: 20) {
+    edges {
+      node {
+        id
+        name
+        thumbnail {
+          url
+          alt
+          __typename
+        }
+        thumbnail2x: thumbnail(size: 510) {
+          url
+          __typename
+        }
+        url
+        category {
+          id
+          name
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      __typename
+    }
+    __typename
+  }
+}
+`;

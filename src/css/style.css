@@ -3878,3 +3878,7 @@ transition: opacity 1s ease-in-out;
 .thumb-slides input:checked + .slide-container .nav label { display: block;width: 25px;height: 25px;background-color: #fff;opacity: 1;line-height: 22px;font-size: 27px;margin: 0px;top: 35%;color: #ef023f;}
 
 .mg-tp-150 { margin-top: 150px; }
+
+.css-1hb7zxy-IndicatorsContainer{ display: none !important; }
+.css-b8ldur-Input { min-width: 150px !important; }
+.css-yk16xz-control { border-color: #8B1C24 !important; }

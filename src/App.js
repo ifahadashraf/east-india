@@ -26,11 +26,11 @@ import {Checkout} from './components/checkout';
 import {Review} from "./components/review";
 import {TermsConditions} from "./components/footer/terms-conditions";
 import {CookiePolicy} from "./components/footer/cookie-policy";
+import {FAQ} from "./components/footer/faq/faq";
 
 
 class App extends Component {
   render() {
-    console.log(this.props.location.pathname);
     return (
       <div
         className={
@@ -42,7 +42,9 @@ class App extends Component {
             'page_without_banner'
           }`
         }>
-        <Header/>
+        <Header
+          history={ this.props.history }
+        />
         <Switch>
           <Route
             path={ ROUTES.ROOT }
@@ -117,6 +119,12 @@ class App extends Component {
             exact
           >
             <CookiePolicy/>
+          </Route>
+          <Route
+            path={ ROUTES.FAQ }
+            exact
+          >
+            <FAQ/>
           </Route>
         </Switch>
         <Footer/>
