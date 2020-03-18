@@ -118,7 +118,6 @@ export const HeaderComponent = ({ history }) => {
                 );
               }, 500));
             } }
-            defaultOptions={ searchResults }
           />
           <form
             action='#'
