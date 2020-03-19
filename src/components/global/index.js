@@ -2,12 +2,14 @@ import React, { createContext, useReducer, useContext } from 'react';
 
 /* Action Types */
 const SET_CART_COUNT = 'SET_CART_COUNT';
+const SET_SELECTED_CAT = 'SET_SELECTED_CAT';
 
 /* Define a context and a reducer for updating the context */
 const GlobalStateContext = createContext();
 
 const initialState = {
   cartCount: 0,
+  selectedCat: null,
 };
 
 const globalStateReducer = (state, action) => {
@@ -16,6 +18,11 @@ const globalStateReducer = (state, action) => {
       return {
         ...state,
         cartCount: action.payload,
+      };
+    case SET_SELECTED_CAT:
+      return {
+        ...state,
+        selectedCat: action.payload,
       };
     default:
       return state;
@@ -52,9 +59,18 @@ const useGlobalState = () => {
     });
   };
 
+  const setSelectedCategory = cat => {
+    dispatch({
+      type: SET_SELECTED_CAT,
+      payload: cat,
+    });
+  };
+
   return {
     setCartCount,
+    setSelectedCategory,
     cartCount: state.cartCount,
+    selectedCategory: state.selectedCat,
   };
 };
 

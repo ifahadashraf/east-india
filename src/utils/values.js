@@ -21,6 +21,7 @@ export const MAIN_ROUTES = [
   'cart',
   'terms',
   'faq',
+  'cookie-policy',
 ];
 
 export const CURRENCIES = {

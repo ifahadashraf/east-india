@@ -2,9 +2,11 @@ import React, {useEffect, useState} from 'react';
 import { Banner } from '../banner';
 import { ProductItem } from '../product-item';
 import { client, queries } from '../../api';
+import useGlobalState from "../global";
 
 export const ShopComponent = ({ categories, setCategories }) => {
-  const [selectedCat, setSelectedCat] = useState(null);
+  const { selectedCategory, setSelectedCategory } = useGlobalState();
+  const [selectedCat, setSelectedCat] = useState(selectedCategory);
   const [products, setProducts] = useState([]);
   const [after, setAfter] = useState('');
   const [loadMore, setLoadMore] = useState(true);
@@ -15,7 +17,7 @@ export const ShopComponent = ({ categories, setCategories }) => {
     client.query({ query: queries.getNCategories(10) })
       .then(categoryResults => {
         setCategories(categoryResults.data.categories.edges);
-        setSelectedCat(categoryResults.data.categories.edges[0].node.id);
+        selectedCat || setSelectedCat(categoryResults.data.categories.edges[0].node.id);
       });
   }, [ setCategories ]);
   useEffect(() => {
@@ -43,6 +45,8 @@ export const ShopComponent = ({ categories, setCategories }) => {
         });
     }
   }, [ setProducts, selectedCat, refresh ]);
+  useEffect(() => { setSelectedCat(selectedCategory); }, [selectedCategory]);
+  useEffect(() => () => { setSelectedCategory(null); }, []);
   return(
     <>
       <Banner
