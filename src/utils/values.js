@@ -12,7 +12,7 @@ export const ROUTES = {
   TERMS: '/terms',
   COOKIE: '/cookie-policy',
   FAQ: '/faq',
-  NEWS_SINGLE: '/news-single',
+  NEWS_SINGLE: '/news',
 };
 
 export const MAIN_ROUTES = [
