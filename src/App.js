@@ -27,6 +27,8 @@ import {Review} from "./components/review";
 import {TermsConditions} from "./components/footer/terms-conditions";
 import {CookiePolicy} from "./components/footer/cookie-policy";
 import {FAQ} from "./components/footer/faq/faq";
+import {News} from "./components/news";
+import {NewsSingle} from "./components/news/news-single";
 
 
 class App extends Component {
@@ -62,7 +64,7 @@ class App extends Component {
             path={ ROUTES.NEWS }
             exact
           >
-            <h1>NEWS</h1>
+            <News/>
           </Route>
           <Route
             path={ ROUTES.CONTACT }
@@ -125,6 +127,12 @@ class App extends Component {
             exact
           >
             <FAQ/>
+          </Route>
+          <Route
+            path={ `${ROUTES.NEWS_SINGLE}/:blogSlug` }
+            exact
+          >
+            <NewsSingle/>
           </Route>
         </Switch>
         <Footer/>

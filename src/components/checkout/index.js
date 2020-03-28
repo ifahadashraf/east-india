@@ -135,7 +135,7 @@ export const Checkout = ({ history }) => {
                               });
                               history.push(ROUTES.REVIEW);
                             } }
-                            currency={ getPrice(items[0].variant)[0] }
+                            currency={ items.length && getPrice(items[0].variant)[0] }
                             amount={
                               items.reduce((sum, item) => {
                                 return sum + (item.payload.quantity * getPrice(item.variant)[1]);

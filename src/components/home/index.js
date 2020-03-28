@@ -10,6 +10,8 @@ import storageDistribution from '../../img/storage-distribution.png';
 import postImage from '../../img/post-img.jpg';
 import { client, queries } from '../../api';
 import {ProductTile} from "./product-tile";
+import {Link} from "react-router-dom";
+import {ROUTES} from "../../utils/values";
 
 export const HomeComponent = () => {
   const [products, setProducts] = useState([]);
@@ -19,6 +21,20 @@ export const HomeComponent = () => {
         setProducts(productResult.data.products.edges);
       });
   }, [ setProducts ]);
+  const [blogs, setBlogs] = useState([]);
+  useEffect(() => {
+    fetch('http://209.97.138.32:8000/blogs').then(response => response.json()).then(data => {
+      data.reverse();
+      const _blogs = [];
+      for(let i = 0; i<3; i++) {
+        if(i === data.length) {
+          break;
+        }
+        _blogs.push(data[i]);
+      }
+      setBlogs(_blogs);
+    });
+  }, []);
   return(
     <>
       <div className='home_banner'>
@@ -553,259 +569,218 @@ export const HomeComponent = () => {
                               className='carousel slide mobImgHeight174'
                             >
                               <div className='carousel-inner'>
-                                <div
-                                  className='img_content_grid active carousel-item'
-                                  data-slide-number='0'
-                                >
-                                  <div className='fixed_size_img_1'>
-                                    <a href='#'>
-                                      <img
-                                        src={ postImage }
-                                        alt='Post Image'
-                                      />
-                                    </a>
+                                {
+                                  blogs.length ? blogs.map(({ slug, title, short_description, image, image_alt_text }) => (
+                                    <div className='col-sm-4'>
+                                      <div className='item'>
+                                        <Link
+                                          id='carousel-selector-0'
+                                          className='selected'
+                                          data-slide-to='0'
+                                          data-target='#news_slider'
+                                          to={ `${ROUTES.NEWS_SINGLE}/${slug}` }
+                                        >
+                                          <div className='img_content_grid'>
+                                            <div className='fixed_size_img_1'>
+                                              <Link to={ `${ROUTES.NEWS_SINGLE}/${slug}` }>
+                                                <img
+                                                  src={ image }
+                                                  alt={ image_alt_text }
+                                                />
+                                              </Link>
+                                            </div>
+                                            <div className='content_box pr-lg-2'>
+                                              <h3 className='mt-3 mb-2 lh-30'>
+                                                <Link
+                                                  to={ `${ROUTES.NEWS_SINGLE}/${slug}` }
+                                                  className='fw-bold fs-22 openSans text_color_1'
+                                                >
+                                                  { title }
+                                                </Link>
+                                              </h3>
+                                              <p className='fw-light openSans fs-16 lh-30'>
+                                                { short_description }
+                                              </p>
+                                            </div>
+                                          </div>
+                                        </Link>
+                                      </div>
+                                    </div>
+                                  )) : <div className='col-sm-12'>
+                                    <h1 className='fw-extraBold openSans text_color_1 mt-4 mb-sm-4 mb-mob-0 pb-sm-3 fs-24 text-center'>
+                                      Loading...
+                                    </h1>
                                   </div>
-                                  <div className='content_box mob-text-left'>
-                                    <h3 className='mt-4 mb-2 lh-30'>
-                                      <a
-                                        href='#'
-                                        className='fw-bold fs-25 openSans text_color_1'
-                                      >
-                                        Our tea is now available in all Hilton
-                                        Hotels in the UK!
-                                      </a>
-                                    </h3>
-                                    <p className='fw-light openSans fs-16 lh-30'>
-                                      A leading manufacturer in flexible
-                                      packaging, Established for over 40 Years,
-                                      we're trusted by the biggest consumer
-                                      brands! A leading manufacturer in flexible
-                                      packaging, Established for over 40 Years,
-                                      we're trusted by the biggest consumer
-                                      brands!
-                                    </p>
-                                  </div>
-                                </div>
-                                <div
-                                  className='img_content_grid carousel-item'
-                                  data-slide-number='1'
-                                >
-                                  <div className='fixed_size_img_1'>
-                                    <a href='#'>
-                                      <img
-                                        src={ postImage }
-                                        alt='Post Image'
-                                      />
-                                    </a>
-                                  </div>
-                                  <div className='content_box mob-text-left'>
-                                    <h3 className='mt-4 mb-2 lh-30'>
-                                      <a
-                                        href='#'
-                                        className='fw-bold fs-25 openSans text_color_1'
-                                      >
-                                        Our tea is now available in all Hilton
-                                        Hotels in the UK!
-                                      </a>
-                                    </h3>
-                                    <p className='fw-light openSans fs-16 lh-30'>
-                                      A leading manufacturer in flexible
-                                      packaging, Established for over 40 Years,
-                                      we're trusted by the biggest consumer
-                                      brands! A leading manufacturer in flexible
-                                      packaging, Established for over 40 Years,
-                                      we're trusted by the biggest consumer
-                                      brands!
-                                    </p>
-                                  </div>
-                                </div>
-                                <div
-                                  className='img_content_grid carousel-item'
-                                  data-slide-number='2'
-                                >
-                                  <div className='fixed_size_img_1'>
-                                    <a href='#'>
-                                      <img
-                                        src={ postImage }
-                                        alt='Post Image'
-                                      />
-                                    </a>
-                                  </div>
-                                  <div className='content_box mob-text-left'>
-                                    <h3 className='mt-4 mb-2 lh-30'>
-                                      <a
-                                        href='#'
-                                        className='fw-bold fs-25 openSans text_color_1'
-                                      >
-                                        Our tea is now available in all Hilton
-                                        Hotels in the UK!
-                                      </a>
-                                    </h3>
-                                    <p className='fw-light openSans fs-16 lh-30'>
-                                      A leading manufacturer in flexible
-                                      packaging, Established for over 40 Years,
-                                      we're trusted by the biggest consumer
-                                      brands! A leading manufacturer in flexible
-                                      packaging, Established for over 40 Years,
-                                      we're trusted by the biggest consumer
-                                      brands!
-                                    </p>
-                                  </div>
-                                </div>
-                                <a
-                                  className='carousel-control-prev'
-                                  href='#news_slider'
-                                  role='button'
-                                  data-slide='prev'
-                                >
-                                  <span
-                                    className='carousel-control-prev-icon'
-                                    aria-hidden='true'
-                                  />
-                                  <span className='sr-only'>Previous</span>
-                                </a>
-                                <a
-                                  className='carousel-control-next'
-                                  href='#news_slider'
-                                  role='button'
-                                  data-slide='next'
-                                >
-                                  <span
-                                    className='carousel-control-next-icon'
-                                    aria-hidden='true'
-                                  />
-                                  <span className='sr-only'>Next</span>
-                                </a>
+                                }
+                                {/*<div*/}
+                                {/*  className='img_content_grid active carousel-item'*/}
+                                {/*  data-slide-number='0'*/}
+                                {/*>*/}
+                                {/*  <div className='fixed_size_img_1'>*/}
+                                {/*    <a href='#'>*/}
+                                {/*      <img*/}
+                                {/*        src={ postImage }*/}
+                                {/*        alt='Post Image'*/}
+                                {/*      />*/}
+                                {/*    </a>*/}
+                                {/*  </div>*/}
+                                {/*  <div className='content_box mob-text-left'>*/}
+                                {/*    <h3 className='mt-4 mb-2 lh-30'>*/}
+                                {/*      <a*/}
+                                {/*        href='#'*/}
+                                {/*        className='fw-bold fs-25 openSans text_color_1'*/}
+                                {/*      >*/}
+                                {/*        Our tea is now available in all Hilton*/}
+                                {/*        Hotels in the UK!*/}
+                                {/*      </a>*/}
+                                {/*    </h3>*/}
+                                {/*    <p className='fw-light openSans fs-16 lh-30'>*/}
+                                {/*      A leading manufacturer in flexible*/}
+                                {/*      packaging, Established for over 40 Years,*/}
+                                {/*      we're trusted by the biggest consumer*/}
+                                {/*      brands! A leading manufacturer in flexible*/}
+                                {/*      packaging, Established for over 40 Years,*/}
+                                {/*      we're trusted by the biggest consumer*/}
+                                {/*      brands!*/}
+                                {/*    </p>*/}
+                                {/*  </div>*/}
+                                {/*</div>*/}
+                                {/*<div*/}
+                                {/*  className='img_content_grid carousel-item'*/}
+                                {/*  data-slide-number='1'*/}
+                                {/*>*/}
+                                {/*  <div className='fixed_size_img_1'>*/}
+                                {/*    <a href='#'>*/}
+                                {/*      <img*/}
+                                {/*        src={ postImage }*/}
+                                {/*        alt='Post Image'*/}
+                                {/*      />*/}
+                                {/*    </a>*/}
+                                {/*  </div>*/}
+                                {/*  <div className='content_box mob-text-left'>*/}
+                                {/*    <h3 className='mt-4 mb-2 lh-30'>*/}
+                                {/*      <a*/}
+                                {/*        href='#'*/}
+                                {/*        className='fw-bold fs-25 openSans text_color_1'*/}
+                                {/*      >*/}
+                                {/*        Our tea is now available in all Hilton*/}
+                                {/*        Hotels in the UK!*/}
+                                {/*      </a>*/}
+                                {/*    </h3>*/}
+                                {/*    <p className='fw-light openSans fs-16 lh-30'>*/}
+                                {/*      A leading manufacturer in flexible*/}
+                                {/*      packaging, Established for over 40 Years,*/}
+                                {/*      we're trusted by the biggest consumer*/}
+                                {/*      brands! A leading manufacturer in flexible*/}
+                                {/*      packaging, Established for over 40 Years,*/}
+                                {/*      we're trusted by the biggest consumer*/}
+                                {/*      brands!*/}
+                                {/*    </p>*/}
+                                {/*  </div>*/}
+                                {/*</div>*/}
+                                {/*<div*/}
+                                {/*  className='img_content_grid carousel-item'*/}
+                                {/*  data-slide-number='2'*/}
+                                {/*>*/}
+                                {/*  <div className='fixed_size_img_1'>*/}
+                                {/*    <a href='#'>*/}
+                                {/*      <img*/}
+                                {/*        src={ postImage }*/}
+                                {/*        alt='Post Image'*/}
+                                {/*      />*/}
+                                {/*    </a>*/}
+                                {/*  </div>*/}
+                                {/*  <div className='content_box mob-text-left'>*/}
+                                {/*    <h3 className='mt-4 mb-2 lh-30'>*/}
+                                {/*      <a*/}
+                                {/*        href='#'*/}
+                                {/*        className='fw-bold fs-25 openSans text_color_1'*/}
+                                {/*      >*/}
+                                {/*        Our tea is now available in all Hilton*/}
+                                {/*        Hotels in the UK!*/}
+                                {/*      </a>*/}
+                                {/*    </h3>*/}
+                                {/*    <p className='fw-light openSans fs-16 lh-30'>*/}
+                                {/*      A leading manufacturer in flexible*/}
+                                {/*      packaging, Established for over 40 Years,*/}
+                                {/*      we're trusted by the biggest consumer*/}
+                                {/*      brands! A leading manufacturer in flexible*/}
+                                {/*      packaging, Established for over 40 Years,*/}
+                                {/*      we're trusted by the biggest consumer*/}
+                                {/*      brands!*/}
+                                {/*    </p>*/}
+                                {/*  </div>*/}
+                                {/*</div>*/}
+                                {/*<a*/}
+                                {/*  className='carousel-control-prev'*/}
+                                {/*  href='#news_slider'*/}
+                                {/*  role='button'*/}
+                                {/*  data-slide='prev'*/}
+                                {/*>*/}
+                                {/*  <span*/}
+                                {/*    className='carousel-control-prev-icon'*/}
+                                {/*    aria-hidden='true'*/}
+                                {/*  />*/}
+                                {/*  <span className='sr-only'>Previous</span>*/}
+                                {/*</a>*/}
+                                {/*<a*/}
+                                {/*  className='carousel-control-next'*/}
+                                {/*  href='#news_slider'*/}
+                                {/*  role='button'*/}
+                                {/*  data-slide='next'*/}
+                                {/*>*/}
+                                {/*  <span*/}
+                                {/*    className='carousel-control-next-icon'*/}
+                                {/*    aria-hidden='true'*/}
+                                {/*  />*/}
+                                {/*  <span className='sr-only'>Next</span>*/}
+                                {/*</a>*/}
                               </div>
-
                               <div className='carousel-indicators'>
                                 <div className='row'>
-                                  <div className='col-xs-4'>
-                                    <div className='item'>
-                                      <a
-                                        id='carousel-selector-0'
-                                        className='selected'
-                                        data-slide-to='0'
-                                        data-target='#news_slider'
-                                      >
-                                        <div className='img_content_grid'>
-                                          <div className='fixed_size_img_1'>
-                                            <a href='#'>
-                                              <img
-                                                src={ postImage }
-                                                alt='Post Image'
-                                              />
-                                            </a>
-                                          </div>
-                                          <div className='content_box pr-lg-2'>
-                                            <h3 className='mt-3 mb-2 lh-30'>
-                                              <a
-                                                href='#'
-                                                className='fw-bold fs-22 openSans text_color_1'
-                                              >
-                                                Our tea is now available in all
-                                                Hilton Hotels in the UK!
-                                              </a>
-                                            </h3>
-                                            <p className='fw-light openSans fs-16 lh-30'>
-                                              A leading manufacturer in flexible
-                                              packaging, Established for over 40
-                                              Years, we're trusted by the biggest
-                                              consumer brands! A leading
-                                              manufacturer in flexible packaging,
-                                              Established for over 40 Years, we're
-                                              trusted by the biggest consumer
-                                              brands!
-                                            </p>
-                                          </div>
+                                  {
+                                    blogs.length ? blogs.map(({ slug, title, short_description, image, image_alt_text }) => (
+                                      <div className='col-sm-4'>
+                                        <div className='item'>
+                                          <Link
+                                            id='carousel-selector-0'
+                                            className='selected'
+                                            data-slide-to='0'
+                                            data-target='#news_slider'
+                                            to={ `${ROUTES.NEWS_SINGLE}/${slug}` }
+                                          >
+                                            <div className='img_content_grid'>
+                                              <div className='fixed_size_img_1'>
+                                                <Link to={ `${ROUTES.NEWS_SINGLE}/${slug}` }>
+                                                  <img
+                                                    src={ image }
+                                                    alt={ image_alt_text }
+                                                  />
+                                                </Link>
+                                              </div>
+                                              <div className='content_box pr-lg-2'>
+                                                <h3 className='mt-3 mb-2 lh-30'>
+                                                  <Link
+                                                    to={ `${ROUTES.NEWS_SINGLE}/${slug}` }
+                                                    className='fw-bold fs-22 openSans text_color_1'
+                                                  >
+                                                    { title }
+                                                  </Link>
+                                                </h3>
+                                                <p className='fw-light openSans fs-16 lh-30'>
+                                                  { short_description }
+                                                </p>
+                                              </div>
+                                            </div>
+                                          </Link>
                                         </div>
-                                      </a>
+                                      </div>
+                                    )) : <div className='col-sm-12'>
+                                      <h1 className='fw-extraBold openSans text_color_1 mt-4 mb-sm-4 mb-mob-0 pb-sm-3 fs-24 text-center'>
+                                        Loading...
+                                      </h1>
                                     </div>
-                                  </div>
-                                  <div className='col-xs-4'>
-                                    <div className='item'>
-                                      <a
-                                        id='carousel-selector-1'
-                                        className='selected'
-                                        data-slide-to='1'
-                                        data-target='#news_slider'
-                                      >
-                                        <div className='img_content_grid'>
-                                          <div className='fixed_size_img_1'>
-                                            <a href='#'>
-                                              <img
-                                                src={ postImage }
-                                                alt='Post Image'
-                                              />
-                                            </a>
-                                          </div>
-                                          <div className='content_box pr-lg-2'>
-                                            <h3 className='mt-3 mb-2 lh-30'>
-                                              <a
-                                                href='#'
-                                                className='fw-bold fs-22 openSans text_color_1'
-                                              >
-                                                Our tea is now available in all
-                                                Hilton Hotels in the UK!
-                                              </a>
-                                            </h3>
-                                            <p className='fw-light openSans fs-16 lh-30'>
-                                              A leading manufacturer in flexible
-                                              packaging, Established for over 40
-                                              Years, we're trusted by the biggest
-                                              consumer brands! A leading
-                                              manufacturer in flexible packaging,
-                                              Established for over 40 Years, we're
-                                              trusted by the biggest consumer
-                                              brands!
-                                            </p>
-                                          </div>
-                                        </div>
-                                      </a>
-                                    </div>
-                                  </div>
-                                  <div className='col-xs-4'>
-                                    <div className='item'>
-                                      <a
-                                        id='carousel-selector-0'
-                                        className='selected'
-                                        data-slide-to='2'
-                                        data-target='#news_slider'
-                                      >
-                                        <div className='img_content_grid'>
-                                          <div className='fixed_size_img_1'>
-                                            <a href='#'>
-                                              <img
-                                                src={ postImage }
-                                                alt='Post Image'
-                                              />
-                                            </a>
-                                          </div>
-                                          <div className='content_box pr-lg-2'>
-                                            <h3 className='mt-3 mb-2 lh-30'>
-                                              <a
-                                                href='#'
-                                                className='fw-bold fs-22 openSans text_color_1'
-                                              >
-                                                Our tea is now available in all
-                                                Hilton Hotels in the UK!
-                                              </a>
-                                            </h3>
-                                            <p className='fw-light openSans fs-16 lh-30'>
-                                              A leading manufacturer in flexible
-                                              packaging, Established for over 40
-                                              Years, we're trusted by the biggest
-                                              consumer brands! A leading
-                                              manufacturer in flexible packaging,
-                                              Established for over 40 Years, we're
-                                              trusted by the biggest consumer
-                                              brands!
-                                            </p>
-                                          </div>
-                                        </div>
-                                      </a>
-                                    </div>
-                                  </div>
+                                  }
                                   <div className='clearfix'></div>
                                 </div>
                               </div>

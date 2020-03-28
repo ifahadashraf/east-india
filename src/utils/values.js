@@ -12,6 +12,7 @@ export const ROUTES = {
   TERMS: '/terms',
   COOKIE: '/cookie-policy',
   FAQ: '/faq',
+  NEWS_SINGLE: '/news-single',
 };
 
 export const MAIN_ROUTES = [
@@ -22,6 +23,8 @@ export const MAIN_ROUTES = [
   'terms',
   'faq',
   'cookie-policy',
+  'news-single',
+  'news',
 ];
 
 export const CURRENCIES = {
