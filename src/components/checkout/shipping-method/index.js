@@ -48,7 +48,7 @@ export const ShippingMethod = ({ checkoutId, shippingMethods, checked, onContinu
                   postShippingMethodDetails(checkoutId, selectedMethod, setLoading, onContinue, selectedMethod);
                 } }
                 className='text-white bg_color_3 openSans fw-regular fs-14 rounded-10'
-                disabled={ isLoading }
+                disabled={ !selectedMethod || isLoading }
               >
                 {
                   isLoading ? 'Please wait...' : 'Continue to Billing'

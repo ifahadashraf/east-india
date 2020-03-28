@@ -3884,3 +3884,11 @@ transition: opacity 1s ease-in-out;
 .css-yk16xz-control { border-color: #8B1C24 !important; }
 .css-1hwfws3 { min-width: 150px !important; }
 .css-1wy0on6 { display: none !important; }
+
+button:disabled {
+    background-color: #9B9B9B;
+}
+
+button:disabled:hover {
+    background-color: #9B9B9B;
+}

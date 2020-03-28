@@ -1,4 +1,5 @@
 import React from 'react';
+import * as Yup from 'yup';
 import {client, queries} from '../../../api';
 import {Formik} from 'formik';
 import {CountrySelect} from "../../ui/country-select";
@@ -47,6 +48,29 @@ const postShippingData = (values, setSubmitting, onContinue) => {
   }
 };
 
+const schema = Yup.object().shape({
+  firstName: Yup.string()
+    .required('Required'),
+  lastName: Yup.string()
+    .required('Required'),
+  email: Yup.string()
+    .email('Invalid email')
+    .required('Required'),
+  streetName: Yup.string()
+    .required(),
+  zipCode: Yup.string()
+    .required(),
+  city: Yup.string()
+    .required(),
+  state: Yup.string()
+    .required(),
+  country: Yup.string()
+    .required(),
+  phone: Yup.string()
+    .required(),
+});
+
+
 export const Shipping = ({ initialValues, onContinue }) => {
   return (
     <div>
@@ -55,8 +79,9 @@ export const Shipping = ({ initialValues, onContinue }) => {
         onSubmit={ (values, { setSubmitting }) => {
           postShippingData(values, setSubmitting, onContinue);
         } }
+        validationSchema={ schema }
       >
-        { ({ values, handleChange, handleSubmit, isSubmitting }) => (
+        { ({ errors, values, handleChange, handleSubmit, isSubmitting, isValid }) => (
           <form onSubmit={ handleSubmit }>
             <div className='col-sm-12 mb-2 px-lg-1 pl-mob-0 pr-mob-0'>
               <h3 className='fw-regular openSans text_color_1 fs-16'>
@@ -174,12 +199,13 @@ export const Shipping = ({ initialValues, onContinue }) => {
                     value={ values.phone }
                   />
                 </div>
+                { Object.keys(errors).length ? <label style={ { color: '#8B1C24'} }>Please fill out the required fields.</label> : '' }
                 <div className='col-sm-12 pl-0 pr-0 pl-mob-0 pr-mob-0'>
                   <div className='btn_2 mt-3 mt-mob-3 pt-mob-1 mob-text-center'>
                     <button
                       className='text-white bg_color_3 openSans fw-regular fs-14 rounded-10'
                       type='submit'
-                      disabled={ isSubmitting }
+                      disabled={ !isValid || isSubmitting }
                     >
                       {
                         isSubmitting ? 'Please wait...' : 'Continue to Shipping'
