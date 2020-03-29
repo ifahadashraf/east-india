@@ -23,7 +23,7 @@ export const HomeComponent = () => {
   }, [ setProducts ]);
   const [blogs, setBlogs] = useState([]);
   useEffect(() => {
-    fetch('http://209.97.138.32:8000/blogs').then(response => response.json()).then(data => {
+    fetch('https://api.eastindiatea.com/blogs').then(response => response.json()).then(data => {
       data.reverse();
       const _blogs = [];
       for(let i = 0; i<3; i++) {

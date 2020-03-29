@@ -5,7 +5,7 @@ export const ROUTES = {
   NEWS: '/news',
   SHOP: '/shop',
   CONTACT: '/contact',
-  PRODUCT: '/EastIndia/Product',
+  PRODUCT: '/product',
   CART: '/cart',
   CHECKOUT: '/checkout',
   REVIEW: '/review',
@@ -18,7 +18,7 @@ export const ROUTES = {
 export const MAIN_ROUTES = [
   'checkout',
   'review',
-  'EastIndia',
+  'product',
   'cart',
   'terms',
   'faq',

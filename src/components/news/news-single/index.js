@@ -5,7 +5,7 @@ export const NewsSingle = () => {
   const { blogSlug } = useParams();
   const [blog, setBlog] = useState({});
   useEffect(() => {
-    fetch(`http://209.97.138.32:8000/blogs/${blogSlug}`).then(response => response.json()).then(data => {
+    fetch(`https://api.eastindiatea.com/blogs/${blogSlug}`).then(response => response.json()).then(data => {
       setBlog(data);
     });
   }, []);

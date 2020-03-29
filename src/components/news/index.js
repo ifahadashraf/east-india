@@ -5,7 +5,7 @@ import {ROUTES} from "../../utils/values";
 export const News = () => {
   const [blogs, setBlogs] = useState([]);
   useEffect(() => {
-    fetch('http://209.97.138.32:8000/blogs').then(response => response.json()).then(data => {
+    fetch('https://api.eastindiatea.com/blogs').then(response => response.json()).then(data => {
       setBlogs(data);
     });
   }, []);
