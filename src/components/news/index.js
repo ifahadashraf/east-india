@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
-import {ROUTES} from "../../utils/values";
+import React, {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
+import {ROUTES} from '../../utils/values';
 
 export const News = () => {
   const [blogs, setBlogs] = useState([]);
@@ -23,8 +23,58 @@ export const News = () => {
             </div>
             <div className='row'>
               {
+                blogs.length ? <div className='col-sm-12'>
+                  <div className='item'>
+                    <Link
+                      id='carousel-selector-0'
+                      className='selected'
+                      data-slide-to='0'
+                      data-target='#news_slider'
+                      to={ `${ROUTES.NEWS_SINGLE}/${blogs[0].slug}` }
+                    >
+                      <div className=''>
+                        <div
+                          style={ {
+                            width: '100%',
+                            height: '300px',
+                            border: '1px solid #dcdcdc',
+                          } }
+                        >
+                          <Link to={ `${ROUTES.NEWS_SINGLE}/${blogs[0].slug}` }>
+                            <img
+                              src={ blogs[0].image }
+                              alt={ blogs[0].image_alt_text }
+                              style={ {
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                              } }
+                            />
+                          </Link>
+                        </div>
+                        <div className='content_box pr-lg-2'>
+                          <h4 className='mt-3 mb-2 lh-30'>
+                            <Link
+                              to={ `${ROUTES.NEWS_SINGLE}/${blogs[0].slug}` }
+                              className='fw-bold fs-20 openSans text_color_1'
+                            >
+                              { blogs[0].title }
+                            </Link>
+                          </h4>
+                          <p className='fw-light openSans fs-14 lh-30'>
+                            { blogs[0].short_description }
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                </div> : ''
+              }
+            </div>
+            <div className='row'>
+              {
                 blogs.length ? blogs.map(({ slug, title, short_description, image, image_alt_text }) => (
-                  <div className='col-sm-4'>
+                  <div className='col-sm-3'>
                     <div className='item'>
                       <Link
                         id='carousel-selector-0'
@@ -43,15 +93,15 @@ export const News = () => {
                             </Link>
                           </div>
                           <div className='content_box pr-lg-2'>
-                            <h3 className='mt-3 mb-2 lh-30'>
+                            <h4 className='mt-3 mb-2 lh-30'>
                               <Link
                                 to={ `${ROUTES.NEWS_SINGLE}/${slug}` }
-                                className='fw-bold fs-22 openSans text_color_1'
+                                className='fw-bold fs-20 openSans text_color_1'
                               >
                                 { title }
                               </Link>
-                            </h3>
-                            <p className='fw-light openSans fs-16 lh-30'>
+                            </h4>
+                            <p className='fw-light openSans fs-14 lh-30'>
                               { short_description }
                             </p>
                           </div>

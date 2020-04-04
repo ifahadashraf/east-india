@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Link, useParams} from "react-router-dom";
+import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
 
 export const NewsSingle = () => {
   const { blogSlug } = useParams();
@@ -32,12 +32,21 @@ export const NewsSingle = () => {
                       data-target='#news_slider'
                     >
                       <div className='img_content_grid'>
-                        <div className='fixed_size_img_1' style={{
-                          textAlign: 'center',
-                        }} >
+                        <div
+                          style={ {
+                            width: '100%',
+                            height: '300px',
+                            border: '1px solid #dcdcdc',
+                          } }
+                        >
                           <img
                             src={ blog.image }
                             alt={ blog.image_alt_text }
+                            style={ {
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover',
+                            } }
                           />
                         </div>
                         <div className='content_box pr-lg-2'>
