@@ -4,9 +4,17 @@ import {ROUTES} from '../../utils/values';
 
 export const News = () => {
   const [blogs, setBlogs] = useState([]);
+  const [bannerBlog, setBannerBlog] = useState(null);
   useEffect(() => {
     fetch('https://api.eastindiatea.com/blogs').then(response => response.json()).then(data => {
-      setBlogs(data);
+      if(data.length) {
+        setBannerBlog(data[0]);
+        const _blogs = [];
+        for(let i = 1; i < data.length; i++) {
+          _blogs.push(data[i]);
+        }
+        setBlogs(_blogs);
+      }
     });
   }, []);
   return (
@@ -23,14 +31,14 @@ export const News = () => {
             </div>
             <div className='row'>
               {
-                blogs.length ? <div className='col-sm-12'>
+                bannerBlog ? <div className='col-sm-12'>
                   <div className='item'>
                     <Link
                       id='carousel-selector-0'
                       className='selected'
                       data-slide-to='0'
                       data-target='#news_slider'
-                      to={ `${ROUTES.NEWS_SINGLE}/${blogs[0].slug}` }
+                      to={ `${ROUTES.NEWS_SINGLE}/${bannerBlog.slug}` }
                     >
                       <div className=''>
                         <div
@@ -40,10 +48,10 @@ export const News = () => {
                             border: '1px solid #dcdcdc',
                           } }
                         >
-                          <Link to={ `${ROUTES.NEWS_SINGLE}/${blogs[0].slug}` }>
+                          <Link to={ `${ROUTES.NEWS_SINGLE}/${bannerBlog.slug}` }>
                             <img
-                              src={ blogs[0].image }
-                              alt={ blogs[0].image_alt_text }
+                              src={ bannerBlog.image }
+                              alt={ bannerBlog.image_alt_text }
                               style={ {
                                 width: '100%',
                                 height: '100%',
@@ -55,14 +63,14 @@ export const News = () => {
                         <div className='content_box pr-lg-2'>
                           <h4 className='mt-3 mb-2 lh-30'>
                             <Link
-                              to={ `${ROUTES.NEWS_SINGLE}/${blogs[0].slug}` }
+                              to={ `${ROUTES.NEWS_SINGLE}/${bannerBlog.slug}` }
                               className='fw-bold fs-20 openSans text_color_1'
                             >
-                              { blogs[0].title }
+                              { bannerBlog.title }
                             </Link>
                           </h4>
                           <p className='fw-light openSans fs-14 lh-30'>
-                            { blogs[0].short_description }
+                            { bannerBlog.short_description }
                           </p>
                         </div>
                       </div>
