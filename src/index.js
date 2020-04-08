@@ -9,12 +9,15 @@ import {
   BrowserRouter as Router,
 } from 'react-router-dom';
 import {GlobalStateProvider} from "./components/global";
+import 'react-toastify/dist/ReactToastify.css';
+import {ToastContainer} from "react-toastify";
 
 ReactDOM.render(
   <Provider store={ store }>
     <Router>
       <GlobalStateProvider>
         <App />
+        <ToastContainer />
       </GlobalStateProvider>
     </Router>
   </Provider>

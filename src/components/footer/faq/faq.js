@@ -1,6 +1,6 @@
 import React from 'react';
-import {Link} from "react-router-dom";
-import {ROUTES} from "../../../utils/values";
+import {Link} from 'react-router-dom';
+import {ROUTES} from '../../../utils/values';
 
 export const FAQ = () => (
   <main>
@@ -26,53 +26,10 @@ export const FAQ = () => (
                     <li className='strong'>FAQs</li>
                   </ul>
                 </div>
-
-                <div className='sidebar_nav'>
-                  <ul className='nav nav-tabs tabs-left sideways'>
-                    <li><a
-                      href='#delivery_tab'
-                      data-toggle='tab'
-                      className='active'
-                    >Delivery</a></li>
-                    <li><a
-                      href='#products_tab'
-                      data-toggle='tab'
-                    >Products</a></li>
-                    <li><a
-                      href='#moq_tab'
-                      data-toggle='tab'
-                    >MOQ's</a></li>
-                    <li><a
-                      href='#order_issues_tab'
-                      data-toggle='tab'
-                    >Order Issues</a></li>
-                    <li><a
-                      href='#payments_tab'
-                      data-toggle='tab'
-                    >Payments</a></li>
-                    <li><a
-                      href='#return_tab'
-                      data-toggle='tab'
-                    >Returns &amp; Refunds</a></li>
-                    <li><a
-                      href='#artwork_tab'
-                      data-toggle='tab'
-                    >Artwork</a></li>
-                    <li><a
-                      href='#custom_print_tab'
-                      data-toggle='tab'
-                    >Custom Print</a></li>
-                  </ul>
-                  <div className='btn_1 mt-4'><a
-                    className='bg_color_1 text-white montserrat fw-semiBold fs-11 rounded-12 w-100 py-2'
-                    href='#'
-                  >Contact
-                    Us</a></div>
-                </div>
               </div>
 
 
-              <div className='col-lg-10 col-sm-12 col-md-7 text-left pl-lg-4 pl-md-3 pr-mob-3 pl-mob-3 max-width-79'>
+              <div className='col-sm-12'>
                 <div className='data_grid'>
                   <div className='row mobile-hidden'>
                     <div className='col-lg-5 col-sm-4 text-left'>
@@ -80,24 +37,24 @@ export const FAQ = () => (
                         className='fw-extraBold fs-25 openSans text_color_1'
                                                                           >FAQ's</h2></div>
                     </div>
-                    <div className='col-lg-7 col-sm-8 text-left'>
-                      <div className='faq_search'>
-                        <form
-                          action='#'
-                          method='post'
-                        >
-                          <input
-                            type='text'
-                            className='form-control'
-                            id='search'
-                            placeholder='Search....'
-                          /><i
-                            className='fa fa-search'
-                            aria-hidden='true'
-                            ></i>
-                        </form>
-                      </div>
-                    </div>
+                    {/*<div className='col-lg-7 col-sm-8 text-left'>*/}
+                    {/*  <div className='faq_search'>*/}
+                    {/*    <form*/}
+                    {/*      action='#'*/}
+                    {/*      method='post'*/}
+                    {/*    >*/}
+                    {/*      <input*/}
+                    {/*        type='text'*/}
+                    {/*        className='form-control'*/}
+                    {/*        id='search'*/}
+                    {/*        placeholder='Search....'*/}
+                    {/*      /><i*/}
+                    {/*        className='fa fa-search'*/}
+                    {/*        aria-hidden='true'*/}
+                    {/*        ></i>*/}
+                    {/*    </form>*/}
+                    {/*  </div>*/}
+                    {/*</div>*/}
                   </div>
 
 

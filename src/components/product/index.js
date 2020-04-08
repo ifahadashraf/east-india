@@ -5,6 +5,7 @@ import { client, queries } from '../../api';
 import {getPrice, getPriceRange, isInCart} from '../../utils/common';
 import {ExploreItem} from './explore-item';
 import useGlobalState from "../global";
+import { toast } from 'react-toastify';
 
 export const ProductComponent = () => {
   const {cartCount, setCartCount} = useGlobalState();
@@ -137,6 +138,7 @@ export const ProductComponent = () => {
                                   },
                                 ]);
                                 setCartCount(cartCount + 1);
+                                toast.success('Added to cart successfully !');
                               } }
                               disabled={
                                 !selectedVariant
