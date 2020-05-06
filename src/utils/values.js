@@ -29,4 +29,5 @@ export const MAIN_ROUTES = [
 
 export const CURRENCIES = {
   'USD': '$',
+  'GBP': '£',
 };
