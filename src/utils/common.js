@@ -2,7 +2,7 @@ import {CURRENCIES, MAIN_ROUTES} from './values';
 
 export const getPrice = variant => {
   if(variant.pricing.onSale) {
-    return [ CURRENCIES[variant.pricing.price.net.currency], variant.pricing.price.net.amount ];
+    return [CURRENCIES[variant.pricing.price.net.currency], variant.pricing.price.net.amount ];
   }
   return [
     CURRENCIES[variant.pricing.priceUndiscounted.net.currency],

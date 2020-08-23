@@ -53,9 +53,6 @@ export const ProductComponent = () => {
                                 : getPriceRange(product)
                             }
                           </span>
-                          <div className='pull-mob-right mt-sm-2'>
-                            <span>including 20% VAT</span>
-                          </div>
                           <div className='clearfix'/>
                         </div>
                         <div className='mob_order_div'>
