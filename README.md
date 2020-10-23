@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+East India is an online ecommerce store in UK which specializes in herbal tea.
 
 ## Available Scripts
 
